@@ -2,14 +2,16 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-/*
-struct Pipe
-{
-    int id;
-    int d;
-};*/
 
-class Pipe 
+void repairCin()
+{
+    std::cin.clear();
+    std::cin.ignore(1000000, '\n');
+}
+
+
+
+class Pipe
 {
 private:
     int id = 0;
