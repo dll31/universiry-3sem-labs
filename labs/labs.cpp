@@ -23,8 +23,9 @@ public:
 
     void display();
     void consoleInput();
-    void fileInput(const std::fstream & f);
-
+    void fileInput(const std::fstream& fin);
+    void changeInRepair();
+    bool isValueCorrect(int from, int to);
 };
 
 void Pipe::display()
@@ -38,21 +39,26 @@ void Pipe::display()
 
 void Pipe::consoleInput()
 {
-    std::cout << "Enter pipe diameter:\n";
-    std::cin >> diameter;
+    do
+    {
+        repairCin();
+        std::cout << "Enter pipe diameter:\n";
+        std::cin >> diameter;
+
+    } while (std::cin.fail() || isValueCorrect(500, 1420));
+
     std::cout << "Enter pipe length:\n";
     std::cin >> length;
     std::cout << "Enter pipe in repair parameter (y or n):\n";
     //FIXME: not work
     //std::cin >> inRepair;
-    
+
 }
 
 
-void Pipe::fileInput(const std::fstream & f)
+void Pipe::fileInput(const std::fstream& fin)
 {
-
-    if (f.is_open())
+    if (fin.is_open())
     {
         //TODO: see file input 
         //f >> id >> 
@@ -60,28 +66,81 @@ void Pipe::fileInput(const std::fstream & f)
 
 }
 
-/*
-void DisplayPipe(const Pipe &p)
+
+void Pipe::changeInRepair()
 {
-    std::cout << "Pipe id:\t" << p.id << "\n"
-        << "Pipe diameter:\t" << p.d;
+    inRepair = (!inRepair);
 }
 
 
-Pipe NewPipe()
+bool Pipe::isValueCorrect(int from, int to)
 {
-    Pipe p = { 0 }; 
-    std::cout << "Enter pipe diameter\n";
-    std::cin >> p.d;
+    return 0;
+}
 
-    return p;
-}*/
+
+class Menu
+{
+private:
+    int menuRangeFrom = 0;
+    int menuRangeTo = 7;
+
+public:
+    void showMenu();
+    int getMenuValue();
+    bool menuRangeCheckValue(int value);
+};
+
+
+void Menu::showMenu()
+{
+    std::cout << "1. Add pipe" << "\n"
+        << "2. Add compressor station" << "\n"
+        << "3. See all objects" << "\n"
+        << "4. Edit pipe" << "\n"
+        << "5. Edit compressor station" << "\n"
+        << "6. Save" << "\n"
+        << "7. Load" << "\n"
+        << "0. Exit" << "\n";
+}
+
+
+int Menu::getMenuValue()
+{
+    int value = 0;
+    do
+    {
+        repairCin();
+        std::cout << "Wrong action!\n";
+        std::cin >> value;
+    } while (std::cin.fail() || !menuRangeCheckValue(value));
+
+    return value;
+}
+
+
+bool Menu::menuRangeCheckValue(int value)
+{
+    if ((value >= menuRangeFrom) && (value <= menuRangeTo))
+        return true;
+
+    return false;
+}
+
 
 int main()
 {
-    
-    Pipe *p = new Pipe;
-    p->consoleInput();
-    p->display();
+
+    Pipe* p = new Pipe;
+    Menu* menu = new Menu;
+
+    while (true)
+    {
+        menu->showMenu();
+        std::cout << menu->getMenuValue();
+    }
+
+    //p->consoleInput();
+    //p->display();
     return 0;
 }
