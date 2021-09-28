@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 /*
 struct Pipe
 {
@@ -11,16 +12,16 @@ struct Pipe
 class Pipe 
 {
 private:
-    int id;
+    int id = 0;
 
 public:
-    int diametr;
+    int diameter;
     double length;
     bool inRepair = 0;
 
     void display();
     void consoleInput();
-    void fileInput(std::string filePath);
+    void fileInput(const std::fstream & f);
 
 };
 
@@ -28,18 +29,32 @@ void Pipe::display()
 {
     std::cout << "Pipe parameters" << "\n"
         << "id:\t" << id << "\n"
-        << "diameter:\t" << diametr << "\n"
+        << "diameter:\t" << diameter << "\n"
         << "length:\t" << length << "\n"
         << "in Repair:\t" << (inRepair ? "True" : "False") << "\n";
 }
 
 void Pipe::consoleInput()
 {
-
+    std::cout << "Enter pipe diameter:\n";
+    std::cin >> diameter;
+    std::cout << "Enter pipe length:\n";
+    std::cin >> length;
+    std::cout << "Enter pipe in repair parameter (y or n):\n";
+    //FIXME: not work
+    //std::cin >> inRepair;
+    
 }
 
-void Pipe::fileInput(std::string filePath)
+
+void Pipe::fileInput(const std::fstream & f)
 {
+
+    if (f.is_open())
+    {
+        //TODO: see file input 
+        //f >> id >> 
+    }
 
 }
 
@@ -64,7 +79,7 @@ int main()
 {
     
     Pipe *p = new Pipe;
-    
+    p->consoleInput();
     p->display();
     return 0;
 }
