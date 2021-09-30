@@ -126,26 +126,77 @@ void Pipe::changeInRepair()
 }
 
 
-bool Pipe::isValueCorrect(int from, int to)
+bool Pipe::isValueInRange(int value, int from, int to)
 {
-    return 0;
+    if ((value <= to) && (value >= from))
+        return true;
+    return false; 
+}
+
+bool Pipe::isValueInRange(double value, double from, double to)
+{
+    if ((value <= to) && (value >= from))
+        return true;
+    return false;
 }
 
 
-class Menu
+//FIXME: function for this labwork
+void loadPipeFromFile(std::string file, Pipe& p)
 {
-private:
-    int menuRangeFrom = 0;
-    int menuRangeTo = 7;
+    int rc = 0;
+    std::ifstream fin(file);
+    if (fin.is_open())
+    {
+        rc = p.inputFile(fin);
+        fin.close();
+    }
+    else
+    {
+        std::cout << "Try another file";
+        return;
+    }
 
-public:
-    void showMenu();
-    int getMenuValue();
-    bool menuRangeCheckValue(int value);
-};
+    if (rc == 0)
+    {
+        p.pipeIsEntered = true;
+        std::cout << "pipe load\n";
+        return;
+    }
+
+    std::cout << "Something wrong";
+}
 
 
-void Menu::showMenu()
+//FIXME: function for this labwork
+void savePipeInFile(std::string file, Pipe& p)
+{
+    if (!p.pipeIsEntered)
+    {
+        std::cout << "Enter pipe, before save";
+        return;
+    }
+
+    int rc = 0;
+    std::ofstream fout(file);
+   
+    if (fout.is_open())
+    {
+        rc = p.save(fout);
+        fout.close();
+    }
+
+    if (rc == 0)
+    {
+        std::cout << "pipe saved\n";
+        return;
+    }
+
+    std::cout << "Something wrong";
+}
+
+
+void showMenu()
 {
     std::cout << "1. Add pipe" << "\n"
         << "2. Add compressor station" << "\n"
@@ -157,27 +208,10 @@ void Menu::showMenu()
         << "0. Exit" << "\n";
 }
 
-
-int Menu::getMenuValue()
+//FIXME: function for this labwork
+void clearMemory(Pipe * p)
 {
-    int value = 0;
-    do
-    {
-        repairCin();
-        std::cout << "Wrong action!\n";
-        std::cin >> value;
-    } while (std::cin.fail() || !menuRangeCheckValue(value));
-
-    return value;
-}
-
-
-bool Menu::menuRangeCheckValue(int value)
-{
-    if ((value >= menuRangeFrom) && (value <= menuRangeTo))
-        return true;
-
-    return false;
+    delete(p);
 }
 
 
@@ -185,15 +219,56 @@ int main()
 {
 
     Pipe* p = new Pipe;
-    Menu* menu = new Menu;
+
 
     while (true)
     {
-        menu->showMenu();
-        std::cout << menu->getMenuValue();
-    }
+        showMenu();
+        int action = -1;
+        do
+        {
+            repairCin();
+            std::cin >> action;
+        } while (std::cin.fail());
 
-    //p->consoleInput();
-    //p->display();
+        switch (action)
+        {
+        case 1:
+            p->inputConsole();
+            break;
+
+        case 2:
+            break;
+
+        case 3:
+            break;
+
+        case 4:
+            break;
+
+        case 5:
+            break;
+
+        case 6:
+            savePipeInFile("data.txt", *p);
+            break;
+
+        case 7:
+            loadPipeFromFile("data2.txt", *p);
+            break;
+
+        case 0:
+            clearMemory(p);
+            return 0;
+
+        default:
+            std::cout << "Wrong action";
+        }
+
+    }
+    /*p->inputFile();*/
+    p->display();
+
+    clearMemory(p);
     return 0;
 }
