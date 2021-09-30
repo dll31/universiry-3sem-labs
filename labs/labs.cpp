@@ -10,34 +10,58 @@ void repairCin()
 }
 
 
-
 class Pipe
 {
 private:
     int id = 0;
-
+    
 public:
     int diameter;
     double length;
-    bool inRepair = 0;
+    bool inRepair = false;
+    //FIXME: fix for this labwork
+    bool pipeIsEntered = false;
+
 
     void display();
-    void consoleInput();
-    void fileInput(const std::fstream& fin);
+    int save(std::ofstream& fout);
+
+    void inputConsole();
+    int inputFile(std::ifstream& fin);
+
+    void edit();
+
     void changeInRepair();
-    bool isValueCorrect(int from, int to);
+    bool isValueInRange(int value, int from, int to);
+    bool isValueInRange(double value, double from, double to);
 };
+
 
 void Pipe::display()
 {
     std::cout << "Pipe parameters" << "\n"
-        << "id:\t" << id << "\n"
-        << "diameter:\t" << diameter << "\n"
-        << "length:\t" << length << "\n"
-        << "in Repair:\t" << (inRepair ? "True" : "False") << "\n";
+        << "id: " << id << "\n"
+        << "diameter: " << diameter << "\n"
+        << "length: " << length << "\n"
+        << "in Repair: " << (inRepair ? "True" : "False") << "\n";
 }
 
-void Pipe::consoleInput()
+
+int Pipe::save(std::ofstream& fout)
+{
+    if (fout.is_open())
+    {
+        fout << id << "\n"
+            << diameter << "\n"
+            << length << "\n"
+            << (inRepair ? 1 : 0) << "\n";
+        return 0;
+    }
+    return -2;
+}
+
+
+void Pipe::inputConsole()
 {
     do
     {
@@ -45,24 +69,53 @@ void Pipe::consoleInput()
         std::cout << "Enter pipe diameter:\n";
         std::cin >> diameter;
 
-    } while (std::cin.fail() || isValueCorrect(500, 1420));
+    } while (std::cin.fail() || !isValueInRange(diameter, 500, 1420));
 
-    std::cout << "Enter pipe length:\n";
-    std::cin >> length;
-    std::cout << "Enter pipe in repair parameter (y or n):\n";
-    //FIXME: not work
-    //std::cin >> inRepair;
+    do {
+        repairCin();
+        std::cout << "Enter pipe length:\n";
+        std::cin >> length;
+    } while (std::cin.fail());
+    
+    
+    while (true) 
+    {
+        char ch;
+        repairCin();
+        std::cout << "Enter pipe in repair parameter (y or n):\n";
+        std::cin >> ch;
+        if (std::cin.fail())
+            continue;
 
+        ch = char(std::tolower(ch));
+        if (ch == 'y')
+        {
+            inRepair = true;
+            break;
+        }
+            
+        else if (ch == 'n')
+        {
+            inRepair = false;
+            break;
+        }
+    }
 }
 
 
-void Pipe::fileInput(const std::fstream& fin)
+int Pipe::inputFile(std::ifstream& fin)
 {
     if (fin.is_open())
     {
-        //TODO: see file input 
-        //f >> id >> 
+        fin >> id >> diameter >> length >> inRepair;
+        return 0;
     }
+    return -1;
+}
+
+
+void Pipe::edit()
+{
 
 }
 
