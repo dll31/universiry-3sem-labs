@@ -6,7 +6,7 @@
 void repairCin()
 {
     std::cin.clear();
-    std::cin.ignore(1000000, '\n');
+    std::cin.ignore(10000, '\n');
 }
 
 
@@ -28,9 +28,10 @@ public:
 
     void inputConsole();
     int inputFile(std::ifstream& fin);
-
+        
     void edit();
 
+    void checkCorrectInRepairValue();
     void changeInRepair();
     bool isValueInRange(int value, int from, int to);
     bool isValueInRange(double value, double from, double to);
@@ -57,6 +58,7 @@ int Pipe::save(std::ofstream& fout)
             << (inRepair ? 1 : 0) << "\n";
         return 0;
     }
+
     return -2;
 }
 
@@ -77,8 +79,38 @@ void Pipe::inputConsole()
         std::cin >> length;
     } while (std::cin.fail());
     
-    
-    while (true) 
+    checkCorrectInRepairValue();
+}
+
+
+int Pipe::inputFile(std::ifstream& fin)
+{
+    if (fin.is_open())
+    {
+        fin >> id >> diameter >> length >> inRepair;
+        return 0;
+    }
+
+    return -1;
+}
+
+
+void Pipe::edit()
+{
+    if (!pipeIsEntered)
+    {
+        std::cout << "Enter pipe, before edit\n";
+        return;
+    }
+
+    std::cout << "Now pipe is " << (inRepair ? "in repair" : "not in repair");
+    checkCorrectInRepairValue();
+}
+
+
+void Pipe::checkCorrectInRepairValue()
+{
+    while (true)
     {
         char ch;
         repairCin();
@@ -93,30 +125,13 @@ void Pipe::inputConsole()
             inRepair = true;
             break;
         }
-            
+
         else if (ch == 'n')
         {
             inRepair = false;
             break;
         }
     }
-}
-
-
-int Pipe::inputFile(std::ifstream& fin)
-{
-    if (fin.is_open())
-    {
-        fin >> id >> diameter >> length >> inRepair;
-        return 0;
-    }
-    return -1;
-}
-
-
-void Pipe::edit()
-{
-
 }
 
 
@@ -130,6 +145,7 @@ bool Pipe::isValueInRange(int value, int from, int to)
 {
     if ((value <= to) && (value >= from))
         return true;
+
     return false; 
 }
 
@@ -137,6 +153,7 @@ bool Pipe::isValueInRange(double value, double from, double to)
 {
     if ((value <= to) && (value >= from))
         return true;
+
     return false;
 }
 
@@ -160,7 +177,7 @@ void loadPipeFromFile(std::string file, Pipe& p)
     if (rc == 0)
     {
         p.pipeIsEntered = true;
-        std::cout << "pipe load\n";
+        std::cout << "Pipe load\n";
         return;
     }
 
@@ -217,7 +234,6 @@ void clearMemory(Pipe * p)
 
 int main()
 {
-
     Pipe* p = new Pipe;
 
 
@@ -227,6 +243,7 @@ int main()
         int action = -1;
         do
         {
+            //FIXME: after repair cin wait \n. how to fix it?
             repairCin();
             std::cin >> action;
         } while (std::cin.fail());
@@ -244,6 +261,7 @@ int main()
             break;
 
         case 4:
+            p->edit();
             break;
 
         case 5:
@@ -264,11 +282,11 @@ int main()
         default:
             std::cout << "Wrong action";
         }
-
     }
     /*p->inputFile();*/
     p->display();
 
     clearMemory(p);
+
     return 0;
 }
