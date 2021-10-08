@@ -120,6 +120,8 @@ int Pipe::inputFile(std::ifstream& fin)
         if (fin.fail())
             return -2;
         
+        pipeIsEntered = true;
+
         return 0;
     }
 
@@ -135,7 +137,7 @@ void Pipe::edit()
         return;
     }
 
-    std::cout << "Now pipe is " << (inRepair ? "in repair" : "not in repair");
+    std::cout << "Now pipe is " << (inRepair ? "in repair" : "not in repair") << '\n';
     checkCorrectInRepairValue();
 }
 
@@ -205,18 +207,18 @@ void loadPipeFromFile(std::string file, Pipe& p)
     }
     else
     {
-        std::cout << "Try another file";
+        std::cout << "Try another file\n";
         return;
     }
 
     if (rc == 0)
     {
         p.pipeIsEntered = true;
-        std::cout << "Pipe load\n";
+        std::cout << "Pipe loaded\n";
         return;
     }
 
-    std::cout << "Something wrong";
+    std::cout << "Something wrong\n";
 }
 
 
@@ -225,7 +227,7 @@ void savePipeInFile(std::string file, Pipe& p)
 {
     if (!p.pipeIsEntered)
     {
-        std::cout << "Enter pipe, before save";
+        std::cout << "Enter pipe, before save\n";
         return;
     }
 
@@ -237,14 +239,19 @@ void savePipeInFile(std::string file, Pipe& p)
         rc = p.save(fout);
         fout.close();
     }
-
-    if (rc == 0)
+    else
     {
-        std::cout << "pipe saved\n";
+        std::cout << "Try another file\n";
         return;
     }
 
-    std::cout << "Something wrong";
+    if (rc == 0)
+    {
+        std::cout << "Pipe saved\n";
+        return;
+    }
+
+    std::cout << "Something wrong\n";
 }
 
 
@@ -324,9 +331,7 @@ int main()
             std::cout << "Wrong action";
         }
     }
-    /*p->inputFile();*/
-    p->display();
-
+   
     clearMemory(p);
 
     return 0;
