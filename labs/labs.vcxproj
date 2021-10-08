@@ -140,7 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Compressor_station.cpp" />
-    <ClCompile Include="labs.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
