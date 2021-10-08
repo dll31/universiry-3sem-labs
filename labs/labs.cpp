@@ -87,7 +87,23 @@ int Pipe::inputFile(std::ifstream& fin)
 {
     if (fin.is_open())
     {
-        fin >> id >> diameter >> length >> inRepair;
+        /*If we have broken data in file, we return error*/
+        fin >> id;
+        if (fin.fail())
+            return -2;
+        
+        fin >> diameter;
+        if (fin.fail())
+            return -2;
+        
+        fin >> length; 
+        if (fin.fail())
+            return -2;
+        
+        fin >> inRepair;
+        if (fin.fail())
+            return -2;
+        
         return 0;
     }
 
