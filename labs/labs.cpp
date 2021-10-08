@@ -65,21 +65,37 @@ int Pipe::save(std::ofstream& fout)
 
 void Pipe::inputConsole()
 {
-    do
+    while (true)
     {
-        repairCin();
         std::cout << "Enter pipe diameter:\n";
         std::cin >> diameter;
 
-    } while (std::cin.fail() || !isValueInRange(diameter, 500, 1420));
+        if (std::cin.fail() || !isValueInRange(diameter, 500, 1420))
+        {
+            repairCin();
+            continue;
+        }
 
-    do {
-        repairCin();
+        break;
+    }
+
+    while (true)
+    {
         std::cout << "Enter pipe length:\n";
         std::cin >> length;
-    } while (std::cin.fail());
-    
+
+        if (std::cin.fail())
+        {
+            repairCin();
+            continue;
+        }
+     
+        break;
+    }
+   
     checkCorrectInRepairValue();
+
+    pipeIsEntered = true;
 }
 
 
@@ -129,11 +145,14 @@ void Pipe::checkCorrectInRepairValue()
     while (true)
     {
         char ch;
-        repairCin();
+
         std::cout << "Enter pipe in repair parameter (y or n):\n";
         std::cin >> ch;
         if (std::cin.fail())
+        {
+            repairCin();
             continue;
+        }
 
         ch = char(std::tolower(ch));
         if (ch == 'y')
@@ -257,12 +276,18 @@ int main()
     {
         showMenu();
         int action = -1;
-        do
+        while (true)
         {
-            //FIXME: after repair cin wait \n. how to fix it?
-            repairCin();
             std::cin >> action;
-        } while (std::cin.fail());
+
+            if (std::cin.fail())
+            {
+                repairCin();
+                continue;
+            }
+         
+            break;
+        }
 
         switch (action)
         {
