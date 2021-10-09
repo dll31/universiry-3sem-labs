@@ -23,8 +23,7 @@ public:
     void inputConsole();
     int inputFile(std::ifstream& fin);
 
-    void startWorkshop();
-    void stopWorkshop();
+    void changeWorkedWorkshops();
 
     bool isValueInRange(int value, int from, int to);
     bool isValueInRange(double value, double from, double to);

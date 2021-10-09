@@ -115,15 +115,27 @@ int Compressor_station::inputFile(std::ifstream& fin)
 }
 
 
-void Compressor_station::startWorkshop()
+void Compressor_station::changeWorkedWorkshops()
 {
-    return;
-}
+    if (!compStationIsEntered)
+    {
+        std::cout << "Enter compressor station before edit";
+        return;
+    }
+    
+    while (true)
+    {
+        std::cout << "Enter worked workshops count:\n";
+        std::cin >> countWorkedWorkshops;
 
+        if (std::cin.fail() && !isValueInRange(countWorkedWorkshops, 0, countWorkshops))
+        {
+            repairCin();
+            continue;
+        }
 
-void Compressor_station::stopWorkshop()
-{
-    return;
+        break;
+    }
 }
 
 

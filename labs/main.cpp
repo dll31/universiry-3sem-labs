@@ -194,7 +194,7 @@ int main()
             break;
 
         case 5:
-
+            cs->changeWorkedWorkshops();
             break;
 
         case 6:
