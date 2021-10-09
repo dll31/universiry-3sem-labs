@@ -8,7 +8,6 @@
 #include "utility.h"
 
 
-
 //FIXME: function for this labwork
 void loadPipeFromFile(std::string file, Pipe& p)
 {
@@ -31,10 +30,14 @@ void loadPipeFromFile(std::string file, Pipe& p)
         std::cout << "Pipe loaded\n";
         return;
     }
-
+    else if (rc == -2)
+    {
+        std::cout << "Broken data in file. File path: " << file << '\n';
+        return;
+    }
+    
     std::cout << "Something wrong\n";
 }
-
 
 //FIXME: function for this labwork
 void savePipeInFile(std::string file, Pipe& p)
@@ -68,7 +71,7 @@ void savePipeInFile(std::string file, Pipe& p)
     std::cout << "Something wrong\n";
 }
 
-
+//FIXME: function for this labwork
 void loadCompStationFromFile(std::string file, Compressor_station& cs)
 {
     int rc = -1;
@@ -90,11 +93,16 @@ void loadCompStationFromFile(std::string file, Compressor_station& cs)
         std::cout << "Compressor station loaded\n";
         return;
     }
+    else if (rc == -2)
+    {
+        std::cout << "Broken data in file. File path: " << file << '\n';
+        return;
+    }
 
     std::cout << "Something wrong\n";
 }
 
-
+//FIXME: function for this labwork
 void saveCompStaitionInFile(std::string file, Compressor_station& cs)
 {
     if (!cs.compStationIsEntered)
@@ -137,7 +145,8 @@ void showMenu()
         << "5. Edit compressor station" << "\n"
         << "6. Save" << "\n"
         << "7. Load" << "\n"
-        << "0. Exit" << "\n";
+        << "0. Exit" << "\n"
+        << "Choose your action: ";
 }
 
 //FIXME: function for this labwork
