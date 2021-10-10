@@ -6,11 +6,11 @@
 void Compressor_station::display()
 {
 	std::cout << "Compressor station parameters:\n"
-        << "id:\t" << id << '\n'
-		<< "name:\t" << name << '\n'
-		<< "workshops:\t" << countWorkshops << '\n'
-		<< "worked workshops:\t" << countWorkedWorkshops << '\n'
-		<< "performance:\t" << performance << '\n';
+        << "id: " << id << '\n'
+		<< "name: " << name << '\n'
+		<< "workshops: " << countWorkshops << '\n'
+		<< "worked workshops: " << countWorkedWorkshops << '\n'
+		<< "performance: " << performance << '\n';
 }
 
 
@@ -55,7 +55,7 @@ void Compressor_station::inputConsole()
         std::cout << "Enter worked workshop count:\n";
         std::cin >> countWorkedWorkshops;
 
-        if (std::cin.fail() && !isValueInRange(countWorkedWorkshops, 0, countWorkshops))
+        if (std::cin.fail() || !isValueInRange(countWorkedWorkshops, 0, countWorkshops))
         {
             repairCin();
             continue;
@@ -69,7 +69,7 @@ void Compressor_station::inputConsole()
         std::cout << "Enter compressor station performance in range(0, 1):\n";
         std::cin >> performance;
 
-        if (std::cin.fail() && !isValueInRange(performance, 0.0, 1.0))
+        if (std::cin.fail() || !isValueInRange(performance, 0.0, 1.0))
         {
             repairCin();
             continue;
@@ -128,7 +128,7 @@ void Compressor_station::changeWorkedWorkshops()
         std::cout << "Enter worked workshops count:\n";
         std::cin >> countWorkedWorkshops;
 
-        if (std::cin.fail() && !isValueInRange(countWorkedWorkshops, 0, countWorkshops))
+        if (std::cin.fail() || !isValueInRange(countWorkedWorkshops, 0, countWorkshops))
         {
             repairCin();
             continue;

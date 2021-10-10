@@ -51,7 +51,7 @@ void Pipe::inputConsole()
         std::cout << "Enter pipe length:\n";
         std::cin >> length;
 
-        if (std::cin.fail())
+        if (std::cin.fail() || !(length > 0.0))
         {
             repairCin();
             continue;
