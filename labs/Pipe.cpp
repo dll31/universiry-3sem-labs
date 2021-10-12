@@ -36,12 +36,10 @@ void Pipe::inputConsole()
     {
         std::cout << "Enter pipe diameter:\n";
         std::cin >> diameter;
+        repairCin();
 
         if (std::cin.fail() || !isValueInRange(diameter, 500, 1420))
-        {
-            repairCin();
             continue;
-        }
 
         break;
     }
@@ -50,12 +48,10 @@ void Pipe::inputConsole()
     {
         std::cout << "Enter pipe length:\n";
         std::cin >> length;
+        repairCin();
 
         if (std::cin.fail() || !(length > 0.0))
-        {
-            repairCin();
             continue;
-        }
 
         break;
     }
@@ -115,11 +111,10 @@ void Pipe::checkCorrectInRepairValue()
 
         std::cout << "Enter pipe in repair parameter (y or n):\n";
         std::cin >> ch;
+        repairCin();
+
         if (std::cin.fail())
-        {
-            repairCin();
             continue;
-        }
 
         ch = char(std::tolower(ch));
         if (ch == 'y')

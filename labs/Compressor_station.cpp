@@ -34,18 +34,17 @@ void Compressor_station::inputConsole()
 {
     std::cout << "Enter compressor station name: ";
     std::cin.ignore();
+    //TODO: try std::ws
     std::getline(std::cin, name);
 
     while (true)
     {
         std::cout << "Enter workshop count:\n";
         std::cin >> countWorkshops;
+        repairCin();
 
         if (std::cin.fail())
-        {
-            repairCin();
             continue;
-        }
 
         break;
     }
@@ -54,12 +53,10 @@ void Compressor_station::inputConsole()
     {
         std::cout << "Enter worked workshop count:\n";
         std::cin >> countWorkedWorkshops;
+        repairCin();
 
         if (std::cin.fail() || !isValueInRange(countWorkedWorkshops, 0, countWorkshops))
-        {
-            repairCin();
             continue;
-        }
 
         break;
     }
@@ -68,12 +65,10 @@ void Compressor_station::inputConsole()
     {
         std::cout << "Enter compressor station performance in range(0, 1):\n";
         std::cin >> performance;
+        repairCin();
 
         if (std::cin.fail() || !isValueInRange(performance, 0.0, 1.0))
-        {
-            repairCin();
             continue;
-        }
         
         break;
     }
@@ -92,7 +87,8 @@ int Compressor_station::inputFile(std::ifstream& fin)
         if (fin.fail())
             return -2;
 
-        fin >> name;
+        fin.ignore();
+        std::getline(fin, name);
         if (fin.fail())
             return -2;
 
@@ -127,12 +123,10 @@ void Compressor_station::changeWorkedWorkshops()
     {
         std::cout << "Enter worked workshops count:\n";
         std::cin >> countWorkedWorkshops;
+        repairCin();
 
         if (std::cin.fail() || !isValueInRange(countWorkedWorkshops, 0, countWorkshops))
-        {
-            repairCin();
             continue;
-        }
 
         break;
     }

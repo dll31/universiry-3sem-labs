@@ -15,6 +15,7 @@ void loadPipeFromFile(std::string file, Pipe& p)
     std::ifstream fin(file);
     if (fin.is_open())
     {
+        p.pipeIsEntered = false;
         rc = p.inputFile(fin);
         fin.close();
     }
@@ -78,6 +79,7 @@ void loadCompStationFromFile(std::string file, Compressor_station& cs)
     std::ifstream fin(file);
     if (fin.is_open())
     {
+        cs.compStationIsEntered = false;
         rc = cs.inputFile(fin);
         fin.close();
     }
@@ -149,18 +151,11 @@ void showMenu()
         << "Choose your action: ";
 }
 
-//FIXME: function for this labwork
-void clearMemory(Pipe* p, Compressor_station* cs)
-{
-    delete(p);
-    delete(cs);
-}
-
 
 int main()
 {  
-    Pipe* p = new Pipe;
-    Compressor_station* cs = new Compressor_station;
+    Pipe p;
+    Compressor_station cs;
     
 
     while (true)
@@ -170,62 +165,75 @@ int main()
         while (true)
         {
             std::cin >> action;
+            repairCin();
 
             if (std::cin.fail())
-            {
-                repairCin();
                 continue;
-            }
-         
+
             break;
         }
 
         switch (action)
         {
         case 1:
-            p->inputConsole();
+        {
+            p.inputConsole();
             break;
+        }
 
         case 2:
-            cs->inputConsole();
+        {
+            cs.inputConsole();
             break;
+        }
 
         case 3:
-            if (p->pipeIsEntered)
-                p->display();
+        {
+            if (p.pipeIsEntered)
+                p.display();
 
-            if (cs->compStationIsEntered)
-                cs->display();
+            if (cs.compStationIsEntered)
+                cs.display();
             break;
+        }
 
         case 4:
-            p->edit();
+        {
+            p.edit();
             break;
+        }
 
         case 5:
-            cs->changeWorkedWorkshops();
+        {
+            cs.changeWorkedWorkshops();
             break;
+        }
 
         case 6:
-            savePipeInFile("data_pipe.txt", *p);
-            saveCompStaitionInFile("data_cs.txt", *cs);
+        {
+            savePipeInFile("data_pipe.txt", p);
+            saveCompStaitionInFile("data_cs.txt", cs);
             break;
+        }
 
         case 7:
-            loadPipeFromFile("data_pipe.txt", *p);
-            loadCompStationFromFile("data_cs.txt", *cs);
+        {
+            loadPipeFromFile("data_pipe.txt", p);
+            loadCompStationFromFile("data_cs.txt", cs);
             break;
+        }
 
         case 0:
-            clearMemory(p, cs);
+        {
             return 0;
+        }
 
-        default:
+        default: 
+        {
             std::cout << "Wrong action";
         }
+        }
     }
-   
-    clearMemory(p, cs);
 
     return 0;
 }

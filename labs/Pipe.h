@@ -24,8 +24,10 @@ public:
 
     void edit();
 
+
     void checkCorrectInRepairValue();
     void changeInRepair();
+    ///////////????????????????
     bool isValueInRange(int value, int from, int to);
     bool isValueInRange(double value, double from, double to);
 };
