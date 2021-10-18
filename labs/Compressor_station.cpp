@@ -131,20 +131,3 @@ void Compressor_station::changeWorkedWorkshops()
         break;
     }
 }
-
-
-bool Compressor_station::isValueInRange(int value, int from, int to)
-{
-    if ((value <= to) && (value >= from))
-        return true;
-
-    return false;
-}
-
-bool Compressor_station::isValueInRange(double value, double from, double to)
-{
-    if ((value <= to) && (value >= from))
-        return true;
-
-    return false;
-}

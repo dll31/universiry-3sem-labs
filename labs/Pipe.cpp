@@ -130,27 +130,3 @@ void Pipe::checkCorrectInRepairValue()
         }
     }
 }
-
-
-void Pipe::changeInRepair()
-{
-    inRepair = (!inRepair);
-}
-
-
-bool Pipe::isValueInRange(int value, int from, int to)
-{
-    if ((value <= to) && (value >= from))
-        return true;
-
-    return false;
-}
-
-
-bool Pipe::isValueInRange(double value, double from, double to)
-{
-    if ((value <= to) && (value >= from))
-        return true;
-
-    return false;
-}
