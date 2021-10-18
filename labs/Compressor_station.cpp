@@ -1,6 +1,7 @@
 
-#include "Compressor_station.h"
 #include "utility.h"
+#include "Compressor_station.h"
+
 
 
 void Compressor_station::display()
@@ -37,41 +38,11 @@ void Compressor_station::inputConsole()
     //TODO: try std::ws
     std::getline(std::cin, name);
 
-    while (true)
-    {
-        std::cout << "Enter workshop count:\n";
-        std::cin >> countWorkshops;
-        repairCin();
+    inputGoodValueFromCin("Enter workshop count in range(1, 100):\n", countWorkshops, 0, 100);
 
-        if (std::cin.fail())
-            continue;
+    inputGoodValueFromCin("Enter worked workshop count:\n", countWorkedWorkshops, 0, countWorkshops);
 
-        break;
-    }
-
-    while (true)
-    {
-        std::cout << "Enter worked workshop count:\n";
-        std::cin >> countWorkedWorkshops;
-        repairCin();
-
-        if (std::cin.fail() || !isValueInRange(countWorkedWorkshops, 0, countWorkshops))
-            continue;
-
-        break;
-    }
-
-    while (true)
-    {
-        std::cout << "Enter compressor station performance in range(0, 1):\n";
-        std::cin >> performance;
-        repairCin();
-
-        if (std::cin.fail() || !isValueInRange(performance, 0.0, 1.0))
-            continue;
-        
-        break;
-    }
+    inputGoodValueFromCin("Enter compressor station performance in range(0, 1):\n", performance, 0.0, 1.0);
 
     //FIXME:
     compStationIsEntered = true;

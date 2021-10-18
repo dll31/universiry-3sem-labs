@@ -1,8 +1,8 @@
 
 #include <string>
 
-#include "Pipe.h"
 #include "utility.h"
+#include "Pipe.h"
 
 
 void Pipe::display()
@@ -31,30 +31,10 @@ int Pipe::save(std::ofstream& fout)
 
 
 void Pipe::inputConsole()
-{
-    while (true)
-    {
-        std::cout << "Enter pipe diameter:\n";
-        std::cin >> diameter;
-        repairCin();
+{   
+    inputGoodValueFromCin("Enter pipe diameter in range(500 to 1420):\n", diameter, 500, 1420);
 
-        if (std::cin.fail() || !isValueInRange(diameter, 500, 1420))
-            continue;
-
-        break;
-    }
-
-    while (true)
-    {
-        std::cout << "Enter pipe length:\n";
-        std::cin >> length;
-        repairCin();
-
-        if (std::cin.fail() || !(length > 0.0))
-            continue;
-
-        break;
-    }
+    inputGoodValueFromCin("Enter pipe length in meters:\n", length, 0.0, std::numeric_limits<double>::max());
 
     checkCorrectInRepairValue();
 
