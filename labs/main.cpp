@@ -165,10 +165,15 @@ int main()
         while (true)
         {
             std::cin >> action;
-            repairCin();
 
             if (std::cin.fail())
+            {
+                repairCin();
+                std::cout << "Wrong action\n";
+                showMenu();
                 continue;
+            }
+                
 
             break;
         }
@@ -230,7 +235,7 @@ int main()
 
         default: 
         {
-            std::cout << "Wrong action";
+            std::cout << "Wrong action\n";
         }
         }
     }
