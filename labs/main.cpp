@@ -7,17 +7,37 @@
 #include "Compressor_station.h"
 #include "utility.h"
 
+// TODO: in Network class
+std::string pipeSepInFile = "Pipe";
+std::string compStationSepInFile = "CS";
 
-//FIXME: function for this labwork
-void loadPipeFromFile(std::string file, Pipe& p)
+
+void loadElementsFromFile(std::string file)
 {
-    int rc = -1;
+    int rc = 0;
     std::ifstream fin(file);
     if (fin.is_open())
     {
-        p.pipeIsEntered = false;
-        rc = p.inputFile(fin);
-        fin.close();
+        std::string sep;
+
+        while (fin.peek() != -1)
+        {
+            sep = "";
+            rc = 0;
+            std::getline(fin, sep);
+
+            if (sep == pipeSepInFile)
+            {
+                /*rc = loadPipeFromFile();*/
+                p.pipeIsEntered = false;// FIXME: something like this
+                rc = p.inputFile(fin);
+            }
+            else if (sep == compStationSepInFile)
+                rc = loadCompStationFromFile();
+
+            if (rc < 0)
+                return;
+        }
     }
     else
     {
@@ -25,23 +45,38 @@ void loadPipeFromFile(std::string file, Pipe& p)
         return;
     }
 
-    if (rc == 0)
-    {
-        p.pipeIsEntered = true;
-        std::cout << "Pipe loaded\n";
-        return;
-    }
-    else if (rc == -2)
-    {
-        std::cout << "Broken data in file. File path: " << file << '\n';
-        return;
-    }
-    
-    std::cout << "Something wrong\n";
 }
 
+
 //FIXME: function for this labwork
-void savePipeInFile(std::string file, Pipe& p)
+//int loadPipeFromFile(std::ifstream fin, Pipe& p)
+//{
+//    int rc = 0;
+//    if (fin.is_open())
+//    {
+//        p.pipeIsEntered = false;
+//        rc = p.inputFile(fin);
+//        fin.close();
+//    }
+//    else
+//    {
+//        std::cout << "Try another file\n";
+//        return;
+//    }
+//
+//    if (rc == 0)
+//    {
+//        p.pipeIsEntered = true;
+//        std::cout << "Pipe loaded\n";
+//        return;
+//    }
+//    
+//    
+//    std::cout << "Something wrong\n";
+//}
+
+//FIXME: function for this labwork
+void savePipeInFile(std::ofstream fout, Pipe& p)
 {
     if (!p.pipeIsEntered)
     {
@@ -49,8 +84,7 @@ void savePipeInFile(std::string file, Pipe& p)
         return;
     }
 
-    int rc = -1;
-    std::ofstream fout(file);
+    int rc = 0;
    
     if (fout.is_open())
     {
@@ -73,36 +107,36 @@ void savePipeInFile(std::string file, Pipe& p)
 }
 
 //FIXME: function for this labwork
-void loadCompStationFromFile(std::string file, Compressor_station& cs)
-{
-    int rc = -1;
-    std::ifstream fin(file);
-    if (fin.is_open())
-    {
-        cs.compStationIsEntered = false;
-        rc = cs.inputFile(fin);
-        fin.close();
-    }
-    else
-    {
-        std::cout << "Try another file\n";
-        return;
-    }
-
-    if (rc == 0)
-    {
-        cs.compStationIsEntered = true;
-        std::cout << "Compressor station loaded\n";
-        return;
-    }
-    else if (rc == -2)
-    {
-        std::cout << "Broken data in file. File path: " << file << '\n';
-        return;
-    }
-
-    std::cout << "Something wrong\n";
-}
+//void loadCompStationFromFile(std::string file, Compressor_station& cs)
+//{
+//    int rc = -1;
+//    std::ifstream fin(file);
+//    if (fin.is_open())
+//    {
+//        cs.compStationIsEntered = false;
+//        rc = cs.inputFile(fin);
+//        fin.close();
+//    }
+//    else
+//    {
+//        std::cout << "Try another file\n";
+//        return;
+//    }
+//
+//    if (rc == 0)
+//    {
+//        cs.compStationIsEntered = true;
+//        std::cout << "Compressor station loaded\n";
+//        return;
+//    }
+//    else if (rc == -2)
+//    {
+//        std::cout << "Broken data in file. File path: " << file << '\n';
+//        return;
+//    }
+//
+//    std::cout << "Something wrong\n";
+//}
 
 //FIXME: function for this labwork
 void saveCompStaitionInFile(std::string file, Compressor_station& cs)
