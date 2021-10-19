@@ -4,8 +4,16 @@
 
 void repairCin();
 
-bool isValueInRange(const int& value, int from, int to);
-bool isValueInRange(const double& value, double from, double to);
+
+template <typename T>
+bool isValueInRange(const T& value, T from, T to)
+{
+    if ((value <= to) && (value >= from))
+        return true;
+
+    return false;
+}
+
 
 template <typename T>
 void inputGoodValueFromCin(std::string stringToUser, T& inputValue, const T valueRangeFrom, const T valueRangeTo)
@@ -14,12 +22,17 @@ void inputGoodValueFromCin(std::string stringToUser, T& inputValue, const T valu
     {
         std::cout << stringToUser;
         std::cin >> inputValue;
-        repairCin();
 
         if (std::cin.fail() || !isValueInRange(inputValue, valueRangeFrom, valueRangeTo))
+        {
+            repairCin();
             continue;
+        }
 
+        repairCin();
         break;
     }
     return;
 }
+
+
