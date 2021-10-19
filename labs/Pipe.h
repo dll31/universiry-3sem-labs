@@ -9,6 +9,7 @@ private:
     int id = 0;
 
 public:
+    //std::string name;
     int diameter;
     double length;
     bool inRepair = false;
