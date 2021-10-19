@@ -3,8 +3,7 @@
 #include <string>
 #include <fstream>
 
-#include "Pipe.h"
-#include "Compressor_station.h"
+#include "Network.h"
 #include "utility.h"
 
 
