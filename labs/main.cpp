@@ -20,7 +20,6 @@ public:
     Compressor_station cs;
 
     void loadElementsFromFile(std::string file);
-
 };
 
 
@@ -73,6 +72,7 @@ void Network::loadElementsFromFile(std::string file)
             else if (rc == -2)
             {
                 std::cout << "Broken data in file!\n";
+                //TODO: try to write exception in cout
             }
             else
             {
@@ -87,33 +87,6 @@ void Network::loadElementsFromFile(std::string file)
     }
 }
 
-
-//FIXME: function for this labwork
-//int loadPipeFromFile(std::ifstream fin, Pipe& p)
-//{
-//    int rc = 0;
-//    if (fin.is_open())
-//    {
-//        p.pipeIsEntered = false;
-//        rc = p.inputFile(fin);
-//        fin.close();
-//    }
-//    else
-//    {
-//        std::cout << "Try another file\n";
-//        return;
-//    }
-//
-//    if (rc == 0)
-//    {
-//        p.pipeIsEntered = true;
-//        std::cout << "Pipe loaded\n";
-//        return;
-//    }
-//    
-//    
-//    std::cout << "Something wrong\n";
-//}
 
 //FIXME: function for this labwork
 void savePipeInFile(std::string file, Pipe& p)
@@ -148,37 +121,6 @@ void savePipeInFile(std::string file, Pipe& p)
     std::cout << "Something wrong\n";
 }
 
-//FIXME: function for this labwork
-//void loadCompStationFromFile(std::string file, Compressor_station& cs)
-//{
-//    int rc = -1;
-//    std::ifstream fin(file);
-//    if (fin.is_open())
-//    {
-//        cs.compStationIsEntered = false;
-//        rc = cs.inputFile(fin);
-//        fin.close();
-//    }
-//    else
-//    {
-//        std::cout << "Try another file\n";
-//        return;
-//    }
-//
-//    if (rc == 0)
-//    {
-//        cs.compStationIsEntered = true;
-//        std::cout << "Compressor station loaded\n";
-//        return;
-//    }
-//    else if (rc == -2)
-//    {
-//        std::cout << "Broken data in file. File path: " << file << '\n';
-//        return;
-//    }
-//
-//    std::cout << "Something wrong\n";
-//}
 
 //FIXME: function for this labwork
 void saveCompStaitionInFile(std::string file, Compressor_station& cs)
