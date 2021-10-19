@@ -3,7 +3,6 @@
 #include "Compressor_station.h"
 
 
-
 void Compressor_station::display()
 {
 	std::cout << "Compressor station parameters:\n"

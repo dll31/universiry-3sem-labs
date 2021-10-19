@@ -8,11 +8,24 @@
 #include "utility.h"
 
 // TODO: in Network class
-std::string pipeSepInFile = "Pipe";
-std::string compStationSepInFile = "CS";
+
+class Network
+{
+private:
+    std::string pipeSepInFile = "Pipe";
+    std::string compStationSepInFile = "CS";
+
+public:
+    Pipe p;
+    Compressor_station cs;
+
+    void loadElementsFromFile(std::string file);
+
+};
 
 
-void loadElementsFromFile(std::string file)
+
+void Network::loadElementsFromFile(std::string file)
 {
     int rc = 0;
     std::ifstream fin(file);
@@ -33,18 +46,45 @@ void loadElementsFromFile(std::string file)
                 rc = p.inputFile(fin);
             }
             else if (sep == compStationSepInFile)
-                rc = loadCompStationFromFile();
+            {
+                cs.compStationIsEntered = false;
+                rc = cs.inputFile(fin);
+            }
 
             if (rc < 0)
-                return;
+            {
+                fin.close();
+                break;
+            }
+        }
+
+        if (rc == 0)
+        {
+            std::cout << "Succesfull loading!\n";
+            p.pipeIsEntered = true;
+            cs.compStationIsEntered = true;
+        }
+        else
+        {
+            if (rc == -1)
+            {
+                std::cout << "Could not open file!\n";
+            }
+            else if (rc == -2)
+            {
+                std::cout << "Broken data in file!\n";
+            }
+            else
+            {
+                std::cout << "Unexpected error code: " << rc << '\n';
+            }
         }
     }
     else
     {
-        std::cout << "Try another file\n";
+        std::cout << "Could not open file! Try another file\n";
         return;
     }
-
 }
 
 
@@ -76,8 +116,8 @@ void loadElementsFromFile(std::string file)
 //}
 
 //FIXME: function for this labwork
-void savePipeInFile(std::ofstream fout, Pipe& p)
-{
+void savePipeInFile(std::string file, Pipe& p)
+{    
     if (!p.pipeIsEntered)
     {
         std::cout << "Enter pipe, before save\n";
@@ -85,7 +125,9 @@ void savePipeInFile(std::ofstream fout, Pipe& p)
     }
 
     int rc = 0;
-   
+    
+    std::ofstream fout(file);
+
     if (fout.is_open())
     {
         rc = p.save(fout);
@@ -188,8 +230,7 @@ void showMenu()
 
 int main()
 {  
-    Pipe p;
-    Compressor_station cs;
+    Network net;
     
 
     while (true)
@@ -216,49 +257,48 @@ int main()
         {
         case 1:
         {
-            p.inputConsole();
+            net.p.inputConsole();
             break;
         }
 
         case 2:
         {
-            cs.inputConsole();
+            net.cs.inputConsole();
             break;
         }
 
         case 3:
         {
-            if (p.pipeIsEntered)
-                p.display();
+            if (net.p.pipeIsEntered)
+                net.p.display();
 
-            if (cs.compStationIsEntered)
-                cs.display();
+            if (net.cs.compStationIsEntered)
+                net.cs.display();
             break;
         }
 
         case 4:
         {
-            p.edit();
+            net.p.edit();
             break;
         }
 
         case 5:
         {
-            cs.changeWorkedWorkshops();
+            net.cs.changeWorkedWorkshops();
             break;
         }
 
         case 6:
         {
-            savePipeInFile("data_pipe.txt", p);
-            saveCompStaitionInFile("data_cs.txt", cs);
+            savePipeInFile("data_pipe.txt", net.p);
+            saveCompStaitionInFile("data_cs.txt", net.cs);
             break;
         }
 
         case 7:
         {
-            loadPipeFromFile("data_pipe.txt", p);
-            loadCompStationFromFile("data_cs.txt", cs);
+            net.loadElementsFromFile("data.txt");
             break;
         }
 
