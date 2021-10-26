@@ -101,3 +101,9 @@ void Compressor_station::changeWorkedWorkshops()
         break;
     }
 }
+
+
+void Compressor_station::edit()
+{
+    changeWorkedWorkshops();
+}
