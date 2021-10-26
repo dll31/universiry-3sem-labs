@@ -24,4 +24,5 @@ public:
     int inputFile(std::ifstream& fin);
 
     void changeWorkedWorkshops();
+    void edit();
 };
