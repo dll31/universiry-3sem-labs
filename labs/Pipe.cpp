@@ -37,8 +37,6 @@ void Pipe::inputConsole()
     inputGoodValueFromCin("Enter pipe length in meters:\n", length, 0.0, std::numeric_limits<double>::max());
 
     checkCorrectInRepairValue();
-
-    pipeIsEntered = true;
 }
 
 
@@ -72,12 +70,6 @@ int Pipe::inputFile(std::ifstream& fin)
 
 void Pipe::edit()
 {
-    if (!pipeIsEntered)
-    {
-        std::cout << "Enter pipe, before edit\n";
-        return;
-    }
-
     std::cout << "Now pipe is " << (inRepair ? "in repair" : "not in repair") << '\n';
     checkCorrectInRepairValue();
 }
