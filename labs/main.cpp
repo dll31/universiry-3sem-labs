@@ -11,12 +11,6 @@
 //FIXME: function for this labwork
 void savePipeInFile(std::string file, Pipe& p)
 {    
-    if (!p.pipeIsEntered)
-    {
-        std::cout << "Enter pipe, before save\n";
-        return;
-    }
-
     int rc = 0;
     
     std::ofstream fout(file);
@@ -119,42 +113,38 @@ int main()
         {
         case 1:
         {
-            net.p.inputConsole();
+            net.pipeInputConsole();
             break;
         }
 
         case 2:
         {
-            net.cs.inputConsole();
+            net.csInputConsole();
             break;
         }
 
         case 3:
         {
-            if (net.p.pipeIsEntered)
-                net.p.display();
-
-            if (net.cs.compStationIsEntered)
-                net.cs.display();
+            net.display();
             break;
         }
 
         case 4:
         {
-            net.p.edit();
+            //net.pipeEdit();
             break;
         }
 
         case 5:
         {
-            net.cs.changeWorkedWorkshops();
+            //net.csEdit();
             break;
         }
 
         case 6:
         {
-            savePipeInFile("data_pipe.txt", net.p);
-            saveCompStaitionInFile("data_cs.txt", net.cs);
+            //savePipeInFile("data_pipe.txt", net.p);
+            //saveCompStaitionInFile("data_cs.txt", net.cs);
             break;
         }
 
