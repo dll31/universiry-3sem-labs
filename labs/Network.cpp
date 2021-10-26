@@ -66,3 +66,16 @@ void Network::loadElementsFromFile(std::string file)
         return;
     }
 }
+
+template <typename itemType, typename paramType>
+bool searchByName(itemType item, paramType param)
+{
+    return item.name == param;
+}
+
+
+bool searchByInRepair(const Pipe& p, bool underRepair)
+{
+    return p.inRepair == underRepair;
+}
+
