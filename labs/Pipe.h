@@ -13,8 +13,6 @@ public:
     int diameter;
     double length;
     bool inRepair = false;
-    //FIXME: fix for this labwork
-    bool pipeIsEntered = false;
 
 
     void display();
