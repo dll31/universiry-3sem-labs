@@ -67,6 +67,100 @@ void Network::loadElementsFromFile(std::string file)
     }
 }
 
+
+
+
+void Network::pipeInputConsole()
+{
+    int id = getId(&Pipeline);
+    Pipe p;
+    p.inputConsole();
+
+    Pipeline.insert({ id, p });
+}
+
+
+void Network::csInputConsole()
+{
+    int id = getId(&CSArray);
+    Compressor_station cs;
+    cs.inputConsole();
+
+    CSArray.insert({ id, cs });
+}
+
+
+void Network::pipeEdit(int id)
+{
+    try
+    {
+        Pipeline.at(id).edit();
+    }
+
+    catch (const std::out_of_range& e)
+    {
+        std::cerr << "Exception at " << e.what() << '\n';
+    }
+}
+
+
+void Network::csEdit(int id)
+{
+    try
+    {
+        CSArray.at(id).edit();
+    }
+
+    catch (const std::out_of_range& e)
+    {
+        std::cerr << "Exception at " << e.what() << '\n';
+    }
+}
+
+
+void Network::pipeDeleteEnement(int id)
+{
+    try
+    {
+        Pipeline.at(id);
+        Pipeline.erase(id);
+    }
+
+    catch (const std::out_of_range& e)
+    {
+        std::cerr << "Exception at " << e.what() << '\n';
+    }
+}
+
+
+void Network::csDeleteEnement(int id)
+{
+    try
+    {
+        CSArray.at(id);
+        CSArray.erase(id);
+    }
+
+    catch (const std::out_of_range& e)
+    {
+        std::cerr << "Exception at " << e.what() << '\n';
+    }
+}
+
+
+void Network::display()
+{
+    std::cout << "Comprssor stations:" << '\n';
+    for (auto i : CSArray)
+        i.second.display();
+
+    std::cout << '\n' << "Pipes:" << '\n';
+    for (auto i : Pipeline)
+        i.second.display();
+
+}
+
+
 template <typename itemType, typename paramType>
 bool searchByName(itemType item, paramType param)
 {
