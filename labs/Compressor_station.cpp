@@ -107,3 +107,9 @@ void Compressor_station::edit()
 {
     changeWorkedWorkshops();
 }
+
+
+int Compressor_station::getId()
+{
+    return id;
+}
