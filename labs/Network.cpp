@@ -6,7 +6,7 @@
 
 
 void Network::loadElementsFromFile(std::string file)
-{
+{   
     int rc = 0;
     std::ifstream fin(file);
     if (fin.is_open())
@@ -17,17 +17,25 @@ void Network::loadElementsFromFile(std::string file)
         {
             sep = "";
             rc = 0;
+            Pipe p; Compressor_station cs;
+
             std::getline(fin, sep);
 
             if (sep == pipeSepInFile)
             {
-                p.pipeIsEntered = false;
                 rc = p.inputFile(fin);
+                if (rc == 0)
+                {
+                    Pipeline.insert({ p.getId(), p });
+                }
             }
             else if (sep == compStationSepInFile)
             {
-                cs.compStationIsEntered = false;
                 rc = cs.inputFile(fin);
+                if (rc == 0)
+                {
+                    CSArray.insert({ cs.getId(), cs });
+                }
             }
 
             if (rc < 0)
@@ -40,8 +48,6 @@ void Network::loadElementsFromFile(std::string file)
         if (rc == 0)
         {
             std::cout << "Succesfull loading!\n";
-            p.pipeIsEntered = true;
-            cs.compStationIsEntered = true;
         }
         else
         {
@@ -72,7 +78,7 @@ void Network::loadElementsFromFile(std::string file)
 
 void Network::pipeInputConsole()
 {
-    int id = getId(&Pipeline);
+    int id = getId(Pipeline);
     Pipe p;
     p.inputConsole();
 
@@ -82,7 +88,7 @@ void Network::pipeInputConsole()
 
 void Network::csInputConsole()
 {
-    int id = getId(&CSArray);
+    int id = getId(CSArray);
     Compressor_station cs;
     cs.inputConsole();
 

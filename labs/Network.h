@@ -18,12 +18,9 @@ public:
     std::unordered_map<int, Pipe> Pipeline;
     std::unordered_map<int, Compressor_station> CSArray;
 
-    //Pipe p;
-    //Compressor_station cs;
-
     void loadElementsFromFile(std::string file);
     template <typename T>
-    int getId(const T& map);
+    int getId(T& map);
 
     void pipeInputConsole();
     void csInputConsole();
@@ -39,7 +36,7 @@ public:
 
 
 template <typename T>
-int getId(const T& map)
+int Network::getId(T& map)
 {
     int id = 0;
 
