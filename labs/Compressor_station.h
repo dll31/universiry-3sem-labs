@@ -25,4 +25,6 @@ public:
 
     void changeWorkedWorkshops();
     void edit();
+
+    int getId();
 };
