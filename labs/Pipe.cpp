@@ -4,6 +4,17 @@
 #include "utility.h"
 #include "Pipe.h"
 
+Pipe::Pipe()
+{
+    this->id = 0;
+}
+
+
+Pipe::Pipe(int id)
+{
+    this->id = id;
+}
+
 
 void Pipe::display()
 {

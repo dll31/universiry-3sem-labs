@@ -14,6 +14,9 @@ public:
     double length;
     bool inRepair = false;
 
+    Pipe();
+    Pipe(int id);
+
 
     void display();
     int save(std::ofstream& fout);
