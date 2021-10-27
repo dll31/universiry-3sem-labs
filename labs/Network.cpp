@@ -74,12 +74,10 @@ void Network::loadElementsFromFile(std::string file)
 }
 
 
-
-
 void Network::pipeInputConsole()
 {
     int id = getId(Pipeline);
-    Pipe p;
+    Pipe p(id);
     p.inputConsole();
 
     Pipeline.insert({ id, p });
@@ -89,7 +87,7 @@ void Network::pipeInputConsole()
 void Network::csInputConsole()
 {
     int id = getId(CSArray);
-    Compressor_station cs;
+    Compressor_station cs(id);
     cs.inputConsole();
 
     CSArray.insert({ id, cs });
