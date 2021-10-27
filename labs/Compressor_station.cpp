@@ -54,9 +54,6 @@ void Compressor_station::inputConsole()
     inputGoodValueFromCin("Enter worked workshop count:\n", countWorkedWorkshops, 0, countWorkshops);
 
     inputGoodValueFromCin("Enter compressor station performance in range(0, 1):\n", performance, 0.0, 1.0);
-
-    //FIXME:
-    compStationIsEntered = true;
 }
 
 
@@ -95,11 +92,6 @@ int Compressor_station::inputFile(std::ifstream& fin)
 
 void Compressor_station::changeWorkedWorkshops()
 {
-    if (!compStationIsEntered)
-    {
-        std::cout << "Enter compressor station before edit";
-        return;
-    }
     
     while (true)
     {

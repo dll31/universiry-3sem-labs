@@ -39,12 +39,6 @@ void savePipeInFile(std::string file, Pipe& p)
 //FIXME: function for this labwork
 void saveCompStaitionInFile(std::string file, Compressor_station& cs)
 {
-    if (!cs.compStationIsEntered)
-    {
-        std::cout << "Enter compressor station, before save\n";
-        return;
-    }
-
     int rc = -1;
     std::ofstream fout(file);
 
