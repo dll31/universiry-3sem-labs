@@ -3,6 +3,18 @@
 #include "Compressor_station.h"
 
 
+Compressor_station::Compressor_station()
+{
+    this->id = 0;
+}
+
+
+Compressor_station::Compressor_station(int id)
+{
+    this->id = id;
+}
+
+
 void Compressor_station::display()
 {
 	std::cout << "Compressor station parameters:\n"
