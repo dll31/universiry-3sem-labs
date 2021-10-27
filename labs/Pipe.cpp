@@ -102,3 +102,9 @@ void Pipe::checkCorrectInRepairValue()
         }
     }
 }
+
+
+int Pipe::getId()
+{
+    return id;
+}
