@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "Network.h"
+#include "utility.h"
 
 
 
@@ -45,26 +46,7 @@ void Network::loadElementsFromFile(std::string file)
             }
         }
 
-        if (rc == 0)
-        {
-            std::cout << "Succesfull loading!\n";
-        }
-        else
-        {
-            if (rc == -1)
-            {
-                std::cout << "Could not open file!\n";
-            }
-            else if (rc == -2)
-            {
-                std::cout << "Broken data in file!\n";
-                //TODO: try to write exception in cout
-            }
-            else
-            {
-                std::cout << "Unexpected error code: " << rc << '\n';
-            }
-        }
+        parseFileErrorCode(rc);
     }
     else
     {
@@ -156,11 +138,17 @@ void Network::display()
 {
     std::cout << "Comprssor stations:" << '\n';
     for (auto i : CSArray)
+    {
         i.second.display();
+        std::cout << '\n';
+    }
 
     std::cout << '\n' << "Pipes:" << '\n';
     for (auto i : Pipeline)
+    {
         i.second.display();
+        std::cout << '\n';
+    }
 
 }
 
