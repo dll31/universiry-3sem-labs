@@ -4,6 +4,8 @@
 
 void repairCin();
 
+void parseFileErrorCode(int errCode);
+
 
 template <typename T>
 bool isValueInRange(const T& value, T from, T to)
