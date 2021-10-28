@@ -137,8 +137,7 @@ int main()
 
         case 6:
         {
-            //savePipeInFile("data_pipe.txt", net.p);
-            //saveCompStaitionInFile("data_cs.txt", net.cs);
+            net.saveInFile("data.txt");
             break;
         }
 
