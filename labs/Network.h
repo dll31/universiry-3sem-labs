@@ -19,6 +19,8 @@ public:
     std::unordered_map<int, Compressor_station> CSArray;
 
     void loadElementsFromFile(std::string file);
+    void saveInFile(std::string file);
+
     template <typename T>
     int getId(T& map);
 

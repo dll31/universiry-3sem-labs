@@ -56,6 +56,44 @@ void Network::loadElementsFromFile(std::string file)
 }
 
 
+void Network::saveInFile(std::string file)
+{
+    int rc = 0;
+    std::ofstream fout(file);
+    if (fout.is_open())
+    {
+
+        for (auto i : Pipeline)
+        {
+            fout << pipeSepInFile << '\n';
+            rc = i.second.save(fout);
+
+            if (rc < 0)
+                break;
+        }
+
+        rc = 0;
+        for (auto i : CSArray)
+        {
+            fout << compStationSepInFile << '\n';
+            rc = i.second.save(fout);
+
+            if (rc < 0)
+                break;
+        }
+
+        fout.close();
+        parseFileErrorCode(rc);
+
+    }
+    else
+    {
+        std::cout << "Could not open file! Try another file\n";
+        return;
+    }
+}
+
+
 void Network::pipeInputConsole()
 {
     int id = getId(Pipeline);
