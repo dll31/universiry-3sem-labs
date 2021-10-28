@@ -38,7 +38,7 @@ int Compressor_station::save(std::ofstream& fout)
         return 0;
     }
 
-    return -2;
+    return -1;
 }
 
 
