@@ -21,12 +21,21 @@ void showMenu()
         << "Choose your action: ";
 }
 
+std::string getUserFilename()
+{
+    std::string filename;
+    std::cout << "Enter filename with extension: ";
+    std::cin.ignore();
+    std::getline(std::cin, filename);
+
+    return filename;
+}
+
 
 int main()
 {  
     Network net;
     
-
     while (true)
     {
         showMenu();
@@ -43,7 +52,6 @@ int main()
                 continue;
             }
                 
-
             break;
         }
 
@@ -80,14 +88,14 @@ int main()
         }
 
         case 6:
-        {
-            net.saveInFile("data.txt");
+        {   
+            net.saveInFile(getUserFilename());
             break;
         }
 
         case 7:
         {
-            net.loadElementsFromFile("data.txt");
+            net.loadElementsFromFile(getUserFilename());
             break;
         }
 
