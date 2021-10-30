@@ -117,3 +117,15 @@ int Compressor_station::getId()
 {
     return id;
 }
+
+
+int Compressor_station::getcountWorkshops()
+{
+    return countWorkshops;
+}
+
+
+int Compressor_station::getCountWorkedWorkshops()
+{
+    return countWorkedWorkshops;
+}

@@ -10,16 +10,15 @@ private:
 	int id = 0;
 public:
 	std::string name;
-	int countWorkshops;
-	int countWorkedWorkshops;
+	
+private:
+    int countWorkshops;
+    int countWorkedWorkshops;
 	double performance;
-    
-    //FIXME: for this labwork
-    bool compStationIsEntered = false;
 
+public:
     Compressor_station();
     Compressor_station(int id);
-
 
     void display();
     int save(std::ofstream& fout);
@@ -31,4 +30,6 @@ public:
     void edit();
 
     int getId();
+    int getcountWorkshops();
+    int getCountWorkedWorkshops();
 };
