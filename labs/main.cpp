@@ -7,62 +7,6 @@
 #include "utility.h"
 
 
-
-//FIXME: function for this labwork
-void savePipeInFile(std::string file, Pipe& p)
-{    
-    int rc = 0;
-    
-    std::ofstream fout(file);
-
-    if (fout.is_open())
-    {
-        rc = p.save(fout);
-        fout.close();
-    }
-    else
-    {
-        std::cout << "Try another file\n";
-        return;
-    }
-
-    if (rc == 0)
-    {
-        std::cout << "Pipe saved\n";
-        return;
-    }
-
-    std::cout << "Something wrong\n";
-}
-
-
-//FIXME: function for this labwork
-void saveCompStaitionInFile(std::string file, Compressor_station& cs)
-{
-    int rc = -1;
-    std::ofstream fout(file);
-
-    if (fout.is_open())
-    {
-        rc = cs.save(fout);
-        fout.close();
-    }
-    else
-    {
-        std::cout << "Try another file\n";
-        return;
-    }
-
-    if (rc == 0)
-    {
-        std::cout << "Compressor station saved\n";
-        return;
-    }
-
-    std::cout << "Something wrong\n";
-}
-
-
 void showMenu()
 {
     std::cout << "\n" 
