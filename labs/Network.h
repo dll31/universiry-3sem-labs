@@ -2,9 +2,11 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 #include "Pipe.h"
 #include "Compressor_station.h"
+#include "NetworkFilter.h"
 
 
 class Network
@@ -14,6 +16,8 @@ private:
     std::string compStationSepInFile = "CS";
 
 public:
+
+    NetworkFilter filter;
 
     std::unordered_map<int, Pipe> Pipeline;
     std::unordered_map<int, Compressor_station> CSArray;
