@@ -22,7 +22,7 @@ public:
     void saveInFile(std::string file);
 
     template <typename T>
-    int getId(T& map);
+    int getId(std::unordered_map<int, T>& map);
 
     void pipeInputConsole();
     void csInputConsole();
@@ -38,7 +38,7 @@ public:
 
 
 template <typename T>
-int Network::getId(T& map)
+int Network::getId(std::unordered_map<int, T>& map)
 {
     int id = 0;
 
