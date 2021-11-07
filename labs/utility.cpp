@@ -1,6 +1,8 @@
 
 #include "utility.h"
 #include <string.h>
+#include <algorithm>
+
 
 void repairCin()
 {
@@ -31,4 +33,11 @@ void parseFileErrorCode(int errCode)
             std::cout << "Unexpected error code: " << errCode << '\n';
         }
     }
+}
+
+
+//https://stackoverflow.com/questions/8888748/how-to-check-if-given-c-string-or-char-contains-only-digits
+bool is_digits(const std::string& str)
+{
+    return std::all_of(str.begin(), str.end(), ::isdigit);
 }

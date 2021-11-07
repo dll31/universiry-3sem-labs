@@ -38,3 +38,6 @@ void inputGoodValueFromCin(std::string stringToUser, T& inputValue, const T valu
 }
 
 
+bool is_digits(const std::string& str);
+
+
