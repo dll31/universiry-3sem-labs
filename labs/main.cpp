@@ -2,23 +2,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
 
 #include "Network.h"
 #include "utility.h"
-
-
-void mainMenuShow()
-{
-    std::cout << "\n" 
-        << "1. Add pipe" << "\n"
-        << "2. Add compressor station" << "\n"
-        << "3. See all objects" << "\n"
-        << "4. Search by filter" << "\n"
-        << "5. Save" << "\n"
-        << "6. Load" << "\n"
-        << "0. Exit" << "\n"
-        << "Choose your action: ";
-}
 
 
 std::string getUserFilename()
@@ -128,20 +115,52 @@ void csFilterByNameMenuAction(Network & net)
 
 void csFilterByPercentDisWsMenuShow()
 {
-    std::cout << "You should using next keywords: more, less, equal. Use keyword \"and\" to combine more, less and equal.\n"
+    std::cout << "You have next magic keywords for operators: less, greather, equal, not equal, greather equal, less equal.\n"
         << "For example, if you need compressor stations where percent disabled workshops less and equal 60,\n you need to write: \" "
-        << "less and equal 60\" without quotes.\n"
+        << "less equal 60\" without quotes.\n"
         << "Print your frase: ";
 }
 
 
 void csFilterByPercentDisWsMenuAction(Network& net)
 {
+    std::string frase, bigFrase = "";
+    
     csFilterByPercentDisWsMenuShow();
     std::cin.ignore();
-
-    std::string frase;
     std::getline(std::cin, frase);
+
+    std::stringstream ss(frase);
+    forDisabledWorkshopsFilter str;
+
+    while (ss.peek() != -1)
+    {
+        ss >> frase;
+        if (is_digits(frase))
+            str.number = std::stoi(frase);
+        else
+            bigFrase += (" " + frase);
+    }
+
+    std::vector<std::string> availableCompareOperators;
+    net.filter.getAvailableCompareOperators(availableCompareOperators);
+
+    for (auto i : availableCompareOperators)
+    {
+        if (bigFrase.find(i) != std::string::npos)
+        {
+            str.op = i;
+        }
+    }
+
+    auto filter = [&net](Compressor_station & item, forDisabledWorkshopsFilter & param) -> bool
+    {
+        return net.filter.searchByPercentDisabledWorkshops(item, param);
+    };
+
+    net.lastFilteredIds = net.filter.findIdByFilter<Compressor_station, forDisabledWorkshopsFilter>(net.CSArray, filter, str);
+    net.displayFilteredObjects(net.CSArray);
+
 }
 
 
@@ -152,6 +171,20 @@ void filteterMenuShow()
         << "\n Search compressor stations by:\n"
         << "\t2. name\n"
         << "\t3. percent disabled workshops\n"
+        << "Choose your action: ";
+}
+
+
+void mainMenuShow()
+{
+    std::cout << "\n"
+        << "1. Add pipe" << "\n"
+        << "2. Add compressor station" << "\n"
+        << "3. See all objects" << "\n"
+        << "4. Search by filter" << "\n"
+        << "5. Save" << "\n"
+        << "6. Load" << "\n"
+        << "0. Exit" << "\n"
         << "Choose your action: ";
 }
 
