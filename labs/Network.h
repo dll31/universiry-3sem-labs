@@ -19,6 +19,8 @@ public:
 
     NetworkFilter filter;
 
+    std::vector<int> lastFilteredIds;
+
     std::unordered_map<int, Pipe> Pipeline;
     std::unordered_map<int, Compressor_station> CSArray;
 
@@ -38,6 +40,9 @@ public:
     void csDeleteEnement(int id);
 
     void display();
+
+    template <typename T>
+    void displayFilteredObjects(std::unordered_map<int, T>& map);
 };
 
 
@@ -63,4 +68,14 @@ int Network::getId(std::unordered_map<int, T>& map)
     }
 
     return id;
+}
+
+
+template <typename T>
+void Network::displayFilteredObjects(std::unordered_map<int, T>& map)
+{
+    for (auto i : lastFilteredIds)
+    {
+        map[i].display();
+    }
 }
