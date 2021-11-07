@@ -7,19 +7,19 @@
 #include "utility.h"
 
 
-void showMenu()
+void mainMenuShow()
 {
     std::cout << "\n" 
         << "1. Add pipe" << "\n"
         << "2. Add compressor station" << "\n"
         << "3. See all objects" << "\n"
-        << "4. Edit pipe" << "\n"
-        << "5. Edit compressor station" << "\n"
-        << "6. Save" << "\n"
-        << "7. Load" << "\n"
+        << "4. Search by filter" << "\n"
+        << "5. Save" << "\n"
+        << "6. Load" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
+
 
 std::string getUserFilename()
 {
@@ -32,28 +32,173 @@ std::string getUserFilename()
 }
 
 
+int menuInputAction()
+{
+    int action = -1;
+    while (true)
+    {
+        std::cin >> action;
+
+        if (std::cin.fail())
+        {
+            repairCin();
+            std::cout << "Wrong action\n";
+            continue;
+        }
+
+        return action;
+    }
+}
+
+
+void pipesFilterOptionsMenuShow()
+{
+    std::cout << "Input:\n"
+        << "1 if you need all pipes in repair\n"
+        << "2 if you need all pipes in work\n"
+        << "Choose your action: ";
+}
+
+
+void pipesFilterOptionsAction(Network& net)
+{
+    while (true)
+    {
+        pipesFilterOptionsMenuShow();
+        int action = menuInputAction();
+
+        switch (action)
+        {
+        case 1:
+        {
+            auto filter = [&net](const Pipe& item, const bool & param) -> bool
+            {
+                return net.filter.searchByInRepair(item, param);
+            };
+
+            net.lastFilteredIds = net.filter.findIdByFilter<Pipe, bool>(net.Pipeline, filter, true);
+            net.displayFilteredObjects(net.Pipeline);
+            return;
+        }
+
+        case 2:
+        {
+            auto filter = [&net](const Pipe& item, const bool& param) -> bool
+            {
+                return net.filter.searchByInRepair(item, param);
+            };
+
+            net.lastFilteredIds = net.filter.findIdByFilter<Pipe, bool>(net.Pipeline, filter, false);
+            net.displayFilteredObjects(net.Pipeline);
+            return;
+        }
+
+        default:
+        {
+            std::cout << "Wrong action\n";
+            break;
+        }
+        }
+    }
+}
+
+
+void csFilterByNameMenuShow()
+{
+    std::cout << "Enter compressor station name:\n";
+}
+
+
+void csFilterByNameMenuAction(Network & net)
+{
+    csFilterByNameMenuShow();
+    std::cin.ignore();
+
+    std::string name;
+    std::getline(std::cin, name);
+
+    auto filter = [&net](const Compressor_station& item, const std::string& param) -> bool
+    {
+        return net.filter.searchByName(item, param);
+    };
+    net.lastFilteredIds = net.filter.findIdByFilter<Compressor_station, std::string>(net.CSArray, filter, name);
+    net.displayFilteredObjects(net.CSArray);
+}
+
+
+void csFilterByPercentDisWsMenuShow()
+{
+    std::cout << "You should using next keywords: more, less, equal. Use keyword \"and\" to combine more, less and equal.\n"
+        << "For example, if you need compressor stations where percent disabled workshops less and equal 60,\n you need to write: \" "
+        << "less and equal 60\" without quotes.\n"
+        << "Print your frase: ";
+}
+
+
+void csFilterByPercentDisWsMenuAction(Network& net)
+{
+    csFilterByPercentDisWsMenuShow();
+    std::cin.ignore();
+
+    std::string frase;
+    std::getline(std::cin, frase);
+}
+
+
+void filteterMenuShow()
+{
+    std::cout << "Search pipes by:\n"
+        << "\t1. in repair parameter\n"
+        << "\n Search compressor stations by:\n"
+        << "\t2. name\n"
+        << "\t3. percent disabled workshops\n"
+        << "Choose your action: ";
+}
+
+
+void filterMenuAction(Network& net)
+{
+    while (true)
+    {
+        filteterMenuShow();
+        int action = menuInputAction();
+
+        switch (action)
+        {
+        case 1:
+        {
+            pipesFilterOptionsAction(net);
+            return;
+        }
+
+        case 2:
+        {
+            csFilterByNameMenuAction(net);
+            return;
+        }
+
+        case 3:
+        {
+            csFilterByPercentDisWsMenuAction(net);
+            return;
+        }
+
+        default:
+            std::cout << "Wrong action\n";
+            break;
+        }
+    }
+}
+
+
 int main()
 {  
     Network net;
-    
-    while (true)
-    {
-        showMenu();
-        int action = -1;
-        while (true)
-        {
-            std::cin >> action;
 
-            if (std::cin.fail())
-            {
-                repairCin();
-                std::cout << "Wrong action\n";
-                showMenu();
-                continue;
-            }
-                
-            break;
-        }
+    while (true)
+    {        
+        mainMenuShow();
+        int action = menuInputAction();
 
         switch (action)
         {
@@ -77,23 +222,17 @@ int main()
 
         case 4:
         {
-            //net.pipeEdit();
+            filterMenuAction(net);
             break;
         }
 
         case 5:
-        {
-            //net.csEdit();
-            break;
-        }
-
-        case 6:
         {   
             net.saveInFile(getUserFilename());
             break;
         }
 
-        case 7:
+        case 6:
         {
             net.loadElementsFromFile(getUserFilename());
             break;
