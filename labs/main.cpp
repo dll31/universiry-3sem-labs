@@ -175,20 +175,6 @@ void filteterMenuShow()
 }
 
 
-void mainMenuShow()
-{
-    std::cout << "\n"
-        << "1. Add pipe" << "\n"
-        << "2. Add compressor station" << "\n"
-        << "3. See all objects" << "\n"
-        << "4. Search by filter" << "\n"
-        << "5. Save" << "\n"
-        << "6. Load" << "\n"
-        << "0. Exit" << "\n"
-        << "Choose your action: ";
-}
-
-
 void filterMenuAction(Network& net)
 {
     while (true)
@@ -221,6 +207,20 @@ void filterMenuAction(Network& net)
             break;
         }
     }
+}
+
+
+void mainMenuShow()
+{
+    std::cout << "\n"
+        << "1. Add pipe" << "\n"
+        << "2. Add compressor station" << "\n"
+        << "3. See all objects" << "\n"
+        << "4. Search by filter" << "\n"
+        << "5. Save" << "\n"
+        << "6. Load" << "\n"
+        << "0. Exit" << "\n"
+        << "Choose your action: ";
 }
 
 
