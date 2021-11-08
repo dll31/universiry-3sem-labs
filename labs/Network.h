@@ -53,16 +53,8 @@ int Network::getId(std::unordered_map<int, T>& umap)
 
     while (true)
     {
-        //from example: https://www.geeksforgeeks.org/unordered_map-at-cpp/
-        try
-        {
-            umap.at(id);
-        }
-
-        catch (const std::out_of_range& e)
-        {
+        if (!umap.count(id))
             return id;
-        }
 
         id++;
     }
