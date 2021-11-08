@@ -114,64 +114,6 @@ void Network::csInputConsole()
 }
 
 
-void Network::pipeEdit(int id)
-{
-    try
-    {
-        Pipeline.at(id).edit();
-    }
-
-    catch (const std::out_of_range& e)
-    {
-        std::cerr << "Exception at " << e.what() << '\n';
-    }
-}
-
-
-void Network::csEdit(int id)
-{
-    try
-    {
-        CSArray.at(id).edit();
-    }
-
-    catch (const std::out_of_range& e)
-    {
-        std::cerr << "Exception at " << e.what() << '\n';
-    }
-}
-
-
-void Network::pipeDeleteEnement(int id)
-{
-    try
-    {
-        Pipeline.at(id);
-        Pipeline.erase(id);
-    }
-
-    catch (const std::out_of_range& e)
-    {
-        std::cerr << "Exception at " << e.what() << '\n';
-    }
-}
-
-
-void Network::csDeleteEnement(int id)
-{
-    try
-    {
-        CSArray.at(id);
-        CSArray.erase(id);
-    }
-
-    catch (const std::out_of_range& e)
-    {
-        std::cerr << "Exception at " << e.what() << '\n';
-    }
-}
-
-
 void Network::display()
 {
     std::cout << "Comprssor stations:" << '\n';

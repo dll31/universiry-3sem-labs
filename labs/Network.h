@@ -16,7 +16,6 @@ private:
 
 public:
 
-
     std::unordered_map<int, Pipe> Pipeline;
     std::unordered_map<int, Compressor_station> CSArray;
 
@@ -24,26 +23,23 @@ public:
     void saveInFile(std::string file);
 
     template <typename T>
-    int getId(std::unordered_map<int, T>& map);
+    int getId(std::unordered_map<int, T>& umap);
 
     void pipeInputConsole();
     void csInputConsole();
 
-    void pipeEdit(int id);
-    void csEdit(int id);
-
-    void pipeDeleteEnement(int id);
-    void csDeleteEnement(int id);
-
-    void display();
+    template <typename T>
+    void deleteEnement(std::unordered_map<int, T>& umap, int id);
 
     template <typename T>
-    void displayFilteredObjects(std::unordered_map<int, T>& map);
+    void edit(std::unordered_map<int, T>& umap, int id);
+
+    void display();
 };
 
 
 template <typename T>
-int Network::getId(std::unordered_map<int, T>& map)
+int Network::getId(std::unordered_map<int, T>& umap)
 {
     int id = 0;
 
@@ -52,7 +48,7 @@ int Network::getId(std::unordered_map<int, T>& map)
         //from example: https://www.geeksforgeeks.org/unordered_map-at-cpp/
         try
         {
-            map.at(id);
+            umap.at(id);
         }
 
         catch (const std::out_of_range& e)
@@ -68,10 +64,20 @@ int Network::getId(std::unordered_map<int, T>& map)
 
 
 template <typename T>
-void Network::displayFilteredObjects(std::unordered_map<int, T>& map)
+void Network::deleteEnement(std::unordered_map<int, T>& umap, int id)
 {
-    for (auto i : lastFilteredIds)
-    {
-        map[i].display();
-    }
+    if (umap.count(id))
+        umap.erase(id);
+    else
+        cout << "No element with id " << id << "\n";
+}
+
+
+template <typename T>
+void Network::edit(std::unordered_map<int, T>& umap, int id)
+{
+    if (umap.count(id))
+        umap[id].edit();
+    else 
+        cout << "No element with id " << id << "\n";
 }
