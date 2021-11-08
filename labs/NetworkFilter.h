@@ -14,7 +14,7 @@ struct forDisabledWorkshopsFilter
 };
 
 
-std::unordered_map < std::string, std::function<bool(double, double)> > compareOperators;
+static std::unordered_map<std::string, std::function<bool(double, double)> > compareOperators;
 
 void initFilter();
 void getAvailableCompareOperators(std::vector<std::string>& ops);
@@ -29,10 +29,10 @@ bool searchByName(Compressor_station& item, std::string& param);
 
 
 template<typename itemType, typename paramType>
-std::vector<int> findIdByFilter(const std::unordered_map<int, itemType>& map, Filter<itemType, paramType> f, paramType param)
+std::vector<int> findIdByFilter(const std::unordered_map<int, itemType>& umap, Filter<itemType, paramType> f, paramType param)
 {
     std::vector<int> filteredId;
-    for (auto i : map)
+    for (auto i : umap)
     {
         if (f(i.second, param))
             filteredId.push_back(i.first);
