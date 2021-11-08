@@ -6,6 +6,7 @@
 
 #include "Network.h"
 #include "utility.h"
+#include "NetworkFilter.h"
 
 
 std::string getUserFilename()
@@ -58,25 +59,13 @@ void pipesFilterOptionsAction(Network& net)
         {
         case 1:
         {
-            auto filter = [&net](const Pipe& item, const bool & param) -> bool
-            {
-                return net.filter.searchByInRepair(item, param);
-            };
-
-            net.lastFilteredIds = net.filter.findIdByFilter<Pipe, bool>(net.Pipeline, filter, true);
-            net.displayFilteredObjects(net.Pipeline);
+            findIdByFilter<Pipe, bool>(net.Pipeline, searchByInRepair, true);
             return;
         }
 
         case 2:
         {
-            auto filter = [&net](const Pipe& item, const bool& param) -> bool
-            {
-                return net.filter.searchByInRepair(item, param);
-            };
-
-            net.lastFilteredIds = net.filter.findIdByFilter<Pipe, bool>(net.Pipeline, filter, false);
-            net.displayFilteredObjects(net.Pipeline);
+            findIdByFilter<Pipe, bool>(net.Pipeline, searchByInRepair, false);
             return;
         }
 
@@ -104,12 +93,7 @@ void csFilterByNameMenuAction(Network & net)
     std::string name;
     std::getline(std::cin, name);
 
-    auto filter = [&net](const Compressor_station& item, const std::string& param) -> bool
-    {
-        return net.filter.searchByName(item, param);
-    };
-    net.lastFilteredIds = net.filter.findIdByFilter<Compressor_station, std::string>(net.CSArray, filter, name);
-    net.displayFilteredObjects(net.CSArray);
+    findIdByFilter<Compressor_station, std::string>(net.CSArray, searchByName, name);
 }
 
 
@@ -143,7 +127,7 @@ void csFilterByPercentDisWsMenuAction(Network& net)
     }
 
     std::vector<std::string> availableCompareOperators;
-    net.filter.getAvailableCompareOperators(availableCompareOperators);
+    getAvailableCompareOperators(availableCompareOperators);
 
     for (auto i : availableCompareOperators)
     {
@@ -153,14 +137,7 @@ void csFilterByPercentDisWsMenuAction(Network& net)
         }
     }
 
-    auto filter = [&net](Compressor_station & item, forDisabledWorkshopsFilter & param) -> bool
-    {
-        return net.filter.searchByPercentDisabledWorkshops(item, param);
-    };
-
-    net.lastFilteredIds = net.filter.findIdByFilter<Compressor_station, forDisabledWorkshopsFilter>(net.CSArray, filter, str);
-    net.displayFilteredObjects(net.CSArray);
-
+    findIdByFilter<Compressor_station, forDisabledWorkshopsFilter>(net.CSArray, searchByPercentDisabledWorkshops, str);
 }
 
 
@@ -227,6 +204,7 @@ void mainMenuShow()
 int main()
 {  
     Network net;
+    initFilter();
 
     while (true)
     {        
