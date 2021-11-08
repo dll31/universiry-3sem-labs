@@ -43,3 +43,4 @@ bool is_digits(const std::string& str);
 
 
 bool checkCorrectYorNValue(std::string messageForUser);
+
