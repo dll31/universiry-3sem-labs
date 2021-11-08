@@ -32,7 +32,7 @@ public:
     void deleteEnement(std::unordered_map<int, T>& umap, int id);
 
     template <typename T>
-    void edit(std::unordered_map<int, T>& umap, int id);
+    void editElement(std::unordered_map<int, T>& umap, int id);
 
     void display();
 };
@@ -74,7 +74,7 @@ void Network::deleteEnement(std::unordered_map<int, T>& umap, int id)
 
 
 template <typename T>
-void Network::edit(std::unordered_map<int, T>& umap, int id)
+void Network::editElement(std::unordered_map<int, T>& umap, int id)
 {
     if (umap.count(id))
         umap[id].edit();
