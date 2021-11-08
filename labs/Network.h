@@ -35,6 +35,9 @@ public:
     void editElement(std::unordered_map<int, T>& umap, int id);
 
     void display();
+
+    template <typename T>
+    void displayByVectorIds(std::unordered_map<int, T>& umap, std::vector<int>& vectId);
 };
 
 
@@ -80,4 +83,19 @@ void Network::editElement(std::unordered_map<int, T>& umap, int id)
         umap[id].edit();
     else 
         std::cout << "No element with id " << id << "\n";
+}
+
+
+template <typename T>
+void Network::displayByVectorIds(std::unordered_map<int, T>& umap, std::vector<int>& vectId)
+{
+    std::cout << "\n";
+    for (auto i : vectId)
+    {
+        if (umap.count(i))
+            umap[i].display();
+        else
+            std::cout << "No element with id " << i << "\n";
+    }
+    std::cout << "\n";
 }
