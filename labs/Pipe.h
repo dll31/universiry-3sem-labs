@@ -25,6 +25,7 @@ public:
     int inputFile(std::ifstream& fin);
 
     void edit();
+    void justEdit(bool inRepair);
 
     void checkCorrectInRepairValue();
 

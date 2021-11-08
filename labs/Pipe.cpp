@@ -86,9 +86,14 @@ void Pipe::edit()
 }
 
 
+void Pipe::justEdit(bool inRepair)
+{
+    this->inRepair = inRepair;
+}
+
+
 void Pipe::checkCorrectInRepairValue()
 {
-    inRepair = checkCorrectYonNValue("Enter pipe in repair parameter (y or n):\n");
     inRepair = checkCorrectYorNValue("Enter pipe in repair parameter (y or n):\n");
 }
 

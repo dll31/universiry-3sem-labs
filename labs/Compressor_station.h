@@ -28,7 +28,7 @@ public:
 
     void changeWorkedWorkshops();
     void edit();
-
+    
     int getId();
     int getcountWorkshops();
     int getCountWorkedWorkshops();
