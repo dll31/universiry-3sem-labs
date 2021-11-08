@@ -133,3 +133,8 @@ void Network::display()
 }
 
 
+void Network::clearAllElements()
+{
+    Pipeline.clear();
+    CSArray.clear();
+}

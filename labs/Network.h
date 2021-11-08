@@ -38,6 +38,8 @@ public:
 
     template <typename T>
     void displayByVectorIds(std::unordered_map<int, T>& umap, std::vector<int>& vectId);
+
+    void clearAllElements();
 };
 
 
