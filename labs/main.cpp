@@ -361,6 +361,7 @@ void mainMenuShow()
         << "5. Save" << "\n"
         << "6. Load" << "\n"
         << "7. Edit" << "\n"
+        << "8. Clear all objects" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -417,6 +418,12 @@ int main()
         case 7:
         {
             menuEditByUserAction(net);
+            break;
+        }
+
+        case 8:
+        {
+            net.clearAllElements();
             break;
         }
 
