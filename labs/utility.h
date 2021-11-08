@@ -4,6 +4,7 @@
 
 void repairCin();
 
+
 void parseFileErrorCode(int errCode);
 
 
@@ -41,3 +42,4 @@ void inputGoodValueFromCin(std::string stringToUser, T& inputValue, const T valu
 bool is_digits(const std::string& str);
 
 
+bool checkCorrectYonNValue(std::string messageForUser);

@@ -1,6 +1,6 @@
 
 #include "utility.h"
-#include <string.h>
+#include <string>
 #include <algorithm>
 
 
@@ -40,4 +40,31 @@ void parseFileErrorCode(int errCode)
 bool is_digits(const std::string& str)
 {
     return std::all_of(str.begin(), str.end(), ::isdigit);
+}
+
+
+bool checkCorrectYonNValue(std::string messageForUser)
+{
+    while (true)
+    {
+        char ch;
+
+        std::cout << messageForUser;
+        std::cin >> ch;
+        repairCin();
+
+        if (std::cin.fail())
+            continue;
+
+        ch = char(std::tolower(ch));
+        if (ch == 'y')
+        {
+            return true;
+        }
+
+        else if (ch == 'n')
+        {
+            return false;
+        }
+    }
 }
