@@ -6,7 +6,6 @@
 
 #include "Pipe.h"
 #include "Compressor_station.h"
-#include "NetworkFilter.h"
 
 
 class Network
@@ -17,9 +16,6 @@ private:
 
 public:
 
-    NetworkFilter filter;
-
-    std::vector<int> lastFilteredIds;
 
     std::unordered_map<int, Pipe> Pipeline;
     std::unordered_map<int, Compressor_station> CSArray;

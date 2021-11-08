@@ -1,13 +1,19 @@
 #include "NetworkFilter.h"
 
 
-bool NetworkFilter::searchByInRepair(const Pipe& p, bool underRepair)
+bool searchByInRepair(const Pipe& p, bool underRepair)
 {
     return p.inRepair == underRepair;
 }
 
 
-bool NetworkFilter::searchByPercentDisabledWorkshops(Compressor_station& cs, forDisabledWorkshopsFilter & operatorStruct)
+bool searchByName(Compressor_station& item, std::string& param)
+{
+    return item.name == param;
+}
+
+
+bool searchByPercentDisabledWorkshops(Compressor_station& cs, forDisabledWorkshopsFilter & operatorStruct)
 {
     double countWorkshops = cs.getcountWorkshops();
     double countDisabledWorkshops = countWorkshops - cs.getCountWorkedWorkshops();
@@ -17,7 +23,7 @@ bool NetworkFilter::searchByPercentDisabledWorkshops(Compressor_station& cs, for
     return (compareOperators.count(operatorStruct.op) && compareOperators[operatorStruct.op](csPercentDisabledWorkshops, operatorStruct.number));
 }
 
-NetworkFilter::NetworkFilter()
+void initFilter()
 {
     // https://stackoverflow.com/questions/24716453/convert-string-to-operator 
     compareOperators["less"] = std::less<double>();
@@ -30,7 +36,7 @@ NetworkFilter::NetworkFilter()
 }
 
 
-void NetworkFilter::getAvailableCompareOperators(std::vector<std::string>& ops)
+void getAvailableCompareOperators(std::vector<std::string>& ops)
 {
     for (auto i : compareOperators)
         ops.push_back(i.first);
