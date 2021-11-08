@@ -21,6 +21,24 @@ std::string getUserFilename()
 }
 
 
+std::vector<int> getUserVectorId()
+{
+    std::vector<int> vectId;
+    std::string str = "Enter element id. For stop enter -1\n";
+
+    while (true)
+    {
+        int input = 0;
+        inputGoodValueFromCin(str, input, -1, std::numeric_limits<int>::max());
+
+        if (input == -1)
+            return vectId;
+        else
+            vectId.push_back(input);
+    }
+}
+
+
 int menuInputAction()
 {
     int action = -1;
@@ -67,10 +85,11 @@ void menuBatchEditingShow()
 void menuBatchEditingActoin(Network& net, std::vector<int>& vId, bool isPipeSelcted)
 {
     menuBatchEditingShow();
-    int action = menuInputAction();
 
     while (true)
     {
+        int action = menuInputAction();
+
         switch (action)
         {
         case 1:
@@ -118,10 +137,10 @@ void pipesFilterOptionsMenuShow()
 void pipesFilterOptionsAction(Network& net)
 {
     std::vector<int> vectId;
+    pipesFilterOptionsMenuShow();
 
     while (true)
     {
-        pipesFilterOptionsMenuShow();
         int action = menuInputAction();
 
         switch (action)
@@ -129,6 +148,8 @@ void pipesFilterOptionsAction(Network& net)
         case 1:
         {
             vectId = findIdByFilter<Pipe, bool>(net.Pipeline, searchByInRepair, true);
+            net.displayByVectorIds(net.Pipeline, vectId);
+
             if (menuNeedEditingQuestionAction())
                 menuBatchEditingActoin(net, vectId, true);
             return;
@@ -137,6 +158,8 @@ void pipesFilterOptionsAction(Network& net)
         case 2:
         {
             vectId = findIdByFilter<Pipe, bool>(net.Pipeline, searchByInRepair, false);
+            net.displayByVectorIds(net.Pipeline, vectId);
+            
             if (menuNeedEditingQuestionAction())
                 menuBatchEditingActoin(net, vectId, true);
             return;
@@ -169,6 +192,8 @@ void csFilterByNameMenuAction(Network & net)
     std::vector<int> vectId;
 
     vectId = findIdByFilter<Compressor_station, std::string>(net.CSArray, searchByName, name);
+    net.displayByVectorIds(net.CSArray, vectId);
+
     if (menuNeedEditingQuestionAction())
         menuBatchEditingActoin(net, vectId, false);
 }
@@ -204,8 +229,7 @@ void csFilterByPercentDisWsMenuAction(Network& net)
     }
 
     std::vector<std::string> availableCompareOperators;
-    if (menuNeedEditingQuestionAction())
-        getAvailableCompareOperators(availableCompareOperators);
+    getAvailableCompareOperators(availableCompareOperators);
 
     for (auto i : availableCompareOperators)
     {
@@ -217,7 +241,10 @@ void csFilterByPercentDisWsMenuAction(Network& net)
 
     std::vector<int> vectId;
     vectId = findIdByFilter<Compressor_station, forDisabledWorkshopsFilter>(net.CSArray, searchByPercentDisabledWorkshops, str);
-    menuBatchEditingActoin(net, vectId, false);
+    net.displayByVectorIds(net.CSArray, vectId);
+    
+    if (menuNeedEditingQuestionAction())
+        menuBatchEditingActoin(net, vectId, false);
 }
 
 
@@ -228,19 +255,26 @@ void filteterMenuShow()
         << "\n Search compressor stations by:\n"
         << "\t2. name\n"
         << "\t3. percent disabled workshops\n"
+        << "\t0. for exit\n"
         << "Choose your action: ";
 }
 
 
 void filterMenuAction(Network& net)
 {
+    filteterMenuShow();
+
     while (true)
     {
-        filteterMenuShow();
         int action = menuInputAction();
 
         switch (action)
         {
+        case 0:
+        {
+            return;
+        }
+
         case 1:
         {
             pipesFilterOptionsAction(net);
@@ -267,6 +301,56 @@ void filterMenuAction(Network& net)
 }
 
 
+void menuEditByUserShow()
+{
+    std::cout << "You can edit next elements\n"
+        << "1 Pipes\n"
+        << "2 Compressor stations\n"
+        << "0 Exit\n"
+        << "Choose your action: ";
+}
+
+
+void menuEditByUserAction(Network& net)
+{
+    menuEditByUserShow();
+    std::vector<int> vectId;
+
+    while (true)
+    {
+        int action = menuInputAction();
+
+        switch (action)
+        {
+        case 0:
+        {
+            return;
+        }
+
+        case 1:
+        {
+            vectId = getUserVectorId();
+            menuBatchEditingActoin(net, vectId, true);
+            return;
+        }
+
+        case 2:
+        {
+            vectId = getUserVectorId();
+            menuBatchEditingActoin(net, vectId, false);
+            return;
+        }
+
+        default:
+        {
+            std::cout << "Wrong action\n";
+            break;
+        }
+        }
+    }
+}
+
+
 void mainMenuShow()
 {
     std::cout << "\n"
@@ -276,6 +360,7 @@ void mainMenuShow()
         << "4. Search by filter" << "\n"
         << "5. Save" << "\n"
         << "6. Load" << "\n"
+        << "7. Edit" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -318,7 +403,7 @@ int main()
         }
 
         case 5:
-        {   
+        {
             net.saveInFile(getUserFilename());
             break;
         }
@@ -326,6 +411,12 @@ int main()
         case 6:
         {
             net.loadElementsFromFile(getUserFilename());
+            break;
+        }
+
+        case 7:
+        {
+            menuEditByUserAction(net);
             break;
         }
 
