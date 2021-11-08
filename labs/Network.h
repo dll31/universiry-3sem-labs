@@ -31,8 +31,11 @@ public:
     template <typename T>
     void deleteEnement(std::unordered_map<int, T>& umap, int id);
 
-    template <typename T>
-    void editElement(std::unordered_map<int, T>& umap, int id);
+    template <typename classType>
+    void editElement(std::unordered_map<int, classType>& umap, int id);
+
+    template <typename classType, typename userValue>
+    void editAllElements(std::unordered_map<int, classType>& umap, int id, userValue& value);
 
     void display();
 
@@ -84,6 +87,16 @@ void Network::editElement(std::unordered_map<int, T>& umap, int id)
     if (umap.count(id))
         umap[id].edit();
     else 
+        std::cout << "No element with id " << id << "\n";
+}
+
+
+template <typename classType, typename userValue>
+void Network::editAllElements(std::unordered_map<int, classType>& umap, int id, userValue& value)
+{
+    if (umap.count(id))
+        umap[id].justEdit(value);
+    else
         std::cout << "No element with id " << id << "\n";
 }
 

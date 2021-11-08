@@ -104,7 +104,11 @@ void menuBatchEditingActoin(Network& net, std::vector<int>& vId, bool isPipeSelc
         case 2:
         {
             if (isPipeSelcted)
-                batchEditingById<Network, Pipe, int>(net, vId, &Network::editElement<Pipe>, net.Pipeline);
+            {
+                std::cout << "You need to all selected pipes be in repair(y or n): ";
+                bool inRepair = checkCorrectYorNValue("");
+                batchMultipleEditingById<Network, Pipe, int, bool>(net, vId, &Network::editAllElements<Pipe, bool>, net.Pipeline, inRepair);
+            }
             else
                 batchEditingById<Network, Compressor_station, int>(net, vId, &Network::editElement<Compressor_station>, net.CSArray);
             return;
@@ -255,6 +259,7 @@ void filteterMenuShow()
         << "\n Search compressor stations by:\n"
         << "\t2. name\n"
         << "\t3. percent disabled workshops\n"
+        << "Other options:\n"
         << "\t0. for exit\n"
         << "Choose your action: ";
 }
