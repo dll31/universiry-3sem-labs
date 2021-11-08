@@ -43,7 +43,7 @@ bool is_digits(const std::string& str)
 }
 
 
-bool checkCorrectYonNValue(std::string messageForUser)
+bool checkCorrectYorNValue(std::string messageForUser)
 {
     while (true)
     {

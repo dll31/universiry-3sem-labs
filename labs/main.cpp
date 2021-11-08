@@ -68,7 +68,7 @@ void menuNeedEditingQuestionShow()
 bool menuNeedEditingQuestionAction()
 {
     menuNeedEditingQuestionShow();
-    return checkCorrectYonNValue("");
+    return checkCorrectYorNValue("");
 }
 
 
