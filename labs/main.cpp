@@ -38,6 +38,16 @@ std::vector<int> getUserVectorId()
     }
 }
 
+template <typename vectorType>
+std::string numericalVectorToString(std::vector<vectorType>& userVector)
+{
+    std::string str = "";
+    for (auto i : userVector)
+        str += (std::to_string(i) + " ");
+
+    return str;
+}
+
 
 int menuInputAction()
 {
@@ -72,6 +82,68 @@ bool menuNeedEditingQuestionAction()
 }
 
 
+void menuReselectElementsShow()
+{
+    std::cout << "1. Continue with all selected elements\n"
+        << "2. Reselect picked elements\n"
+        << "Choose your action: ";
+}
+
+
+void menuReselectedElementsAction(std::vector<int>& vect)
+{
+    std::cout << "Your selected ids: " << numericalVectorToString(vect) << "\n";
+    menuReselectElementsShow();
+
+    while (true)
+    {
+        int action = menuInputAction();
+
+        switch (action)
+        {
+        case 1:
+        {
+            
+            return;
+        }
+
+        case 2:
+        {
+            std::vector<int> vectId;
+            std::string str = "Enter element id. For stop enter -1\n";
+
+            while (true)
+            {
+                int input = 0;
+                inputGoodValueFromCin(str, input, -1, std::numeric_limits<int>::max());
+
+                if (input == -1)
+                {
+                    vect = vectId;
+                    break;
+                }
+                else
+                {
+                    if (std::find(vect.begin(), vect.end(), input) != vect.end())
+                        vectId.push_back(input);
+                    else
+                        std::cout << "No such id in original ids collection.\n";
+                }
+            }
+            return;
+        }
+
+        default:
+        {
+            std::cout << "Wrong action\n";
+            break;
+        }
+        }
+    }
+
+}
+
+
 void menuBatchEditingShow()
 {
     std::cout << "Input \n"
@@ -82,7 +154,7 @@ void menuBatchEditingShow()
 }
 
 
-void menuBatchEditingActoin(Network& net, std::vector<int>& vId, bool isPipeSelcted)
+void menuBatchEditingAction(Network& net, std::vector<int>& vId, bool isPipeSelcted)
 {
     menuBatchEditingShow();
 
@@ -155,7 +227,11 @@ void pipesFilterOptionsAction(Network& net)
             net.displayByVectorIds(net.Pipeline, vectId);
 
             if (menuNeedEditingQuestionAction())
-                menuBatchEditingActoin(net, vectId, true);
+            {
+                menuReselectedElementsAction(vectId);
+                menuBatchEditingAction(net, vectId, true);
+            }
+
             return;
         }
 
@@ -165,7 +241,10 @@ void pipesFilterOptionsAction(Network& net)
             net.displayByVectorIds(net.Pipeline, vectId);
             
             if (menuNeedEditingQuestionAction())
-                menuBatchEditingActoin(net, vectId, true);
+            {
+                menuReselectedElementsAction(vectId);
+                menuBatchEditingAction(net, vectId, true);
+            }
             return;
         }
 
@@ -185,7 +264,7 @@ void csFilterByNameMenuShow()
 }
 
 
-void csFilterByNameMenuAction(Network & net)
+void csFilterByNameMenuAction(Network& net)
 {
     csFilterByNameMenuShow();
     std::cin.ignore();
@@ -199,7 +278,11 @@ void csFilterByNameMenuAction(Network & net)
     net.displayByVectorIds(net.CSArray, vectId);
 
     if (menuNeedEditingQuestionAction())
-        menuBatchEditingActoin(net, vectId, false);
+    {
+        menuReselectedElementsAction(vectId);
+        menuBatchEditingAction(net, vectId, false);
+
+    }
 }
 
 
@@ -248,7 +331,10 @@ void csFilterByPercentDisWsMenuAction(Network& net)
     net.displayByVectorIds(net.CSArray, vectId);
     
     if (menuNeedEditingQuestionAction())
-        menuBatchEditingActoin(net, vectId, false);
+    {
+        menuReselectedElementsAction(vectId);
+        menuBatchEditingAction(net, vectId, false);
+    }
 }
 
 
@@ -335,14 +421,14 @@ void menuEditByUserAction(Network& net)
         case 1:
         {
             vectId = getUserVectorId();
-            menuBatchEditingActoin(net, vectId, true);
+            menuBatchEditingAction(net, vectId, true);
             return;
         }
 
         case 2:
         {
             vectId = getUserVectorId();
-            menuBatchEditingActoin(net, vectId, false);
+            menuBatchEditingAction(net, vectId, false);
             return;
         }
 
