@@ -7,6 +7,7 @@
 #include "Network.h"
 #include "utility.h"
 #include "NetworkFilter.h"
+#include "BatchEditingManager.h"
 
 
 std::string getUserFilename()
@@ -39,6 +40,72 @@ int menuInputAction()
 }
 
 
+void menuNeedEditingQuestionShow()
+{
+    std::cout << "Do you have edit selected elements? (y or n)\n"
+        << "Your answer: ";
+}
+
+
+bool menuNeedEditingQuestionAction()
+{
+    menuNeedEditingQuestionShow();
+    return checkCorrectYonNValue("");
+}
+
+
+void menuBatchEditingShow()
+{
+    std::cout << "Input \n"
+        << "1 for delete all selected elements\n"
+        << "2 for edit all selected elements\n"
+        << "0 exit without editing\n"
+        << "Choose your action: ";
+}
+
+
+void menuBatchEditingActoin(Network& net, std::vector<int>& vId, bool isPipeSelcted)
+{
+    menuBatchEditingShow();
+    int action = menuInputAction();
+
+    while (true)
+    {
+        switch (action)
+        {
+        case 1:
+        {
+            if (isPipeSelcted)
+                batchEditingById<Network, Pipe, int>(net, vId, &Network::deleteEnement<Pipe>, net.Pipeline);
+            else 
+                batchEditingById<Network, Compressor_station, int>(net, vId, &Network::deleteEnement<Compressor_station>, net.CSArray);
+            return;
+        }
+
+        case 2:
+        {
+            if (isPipeSelcted)
+                batchEditingById<Network, Pipe, int>(net, vId, &Network::editElement<Pipe>, net.Pipeline);
+            else
+                batchEditingById<Network, Compressor_station, int>(net, vId, &Network::editElement<Compressor_station>, net.CSArray);
+            return;
+        }
+        
+        case 0:
+        {
+            return;
+        }
+
+        default:
+        {
+            std::cout << "Wrong action!";
+            break;
+        }
+        }
+    }
+}
+
+
 void pipesFilterOptionsMenuShow()
 {
     std::cout << "Input:\n"
@@ -50,6 +117,8 @@ void pipesFilterOptionsMenuShow()
 
 void pipesFilterOptionsAction(Network& net)
 {
+    std::vector<int> vectId;
+
     while (true)
     {
         pipesFilterOptionsMenuShow();
@@ -59,13 +128,17 @@ void pipesFilterOptionsAction(Network& net)
         {
         case 1:
         {
-            findIdByFilter<Pipe, bool>(net.Pipeline, searchByInRepair, true);
+            vectId = findIdByFilter<Pipe, bool>(net.Pipeline, searchByInRepair, true);
+            if (menuNeedEditingQuestionAction())
+                menuBatchEditingActoin(net, vectId, true);
             return;
         }
 
         case 2:
         {
-            findIdByFilter<Pipe, bool>(net.Pipeline, searchByInRepair, false);
+            vectId = findIdByFilter<Pipe, bool>(net.Pipeline, searchByInRepair, false);
+            if (menuNeedEditingQuestionAction())
+                menuBatchEditingActoin(net, vectId, true);
             return;
         }
 
@@ -93,7 +166,11 @@ void csFilterByNameMenuAction(Network & net)
     std::string name;
     std::getline(std::cin, name);
 
-    findIdByFilter<Compressor_station, std::string>(net.CSArray, searchByName, name);
+    std::vector<int> vectId;
+
+    vectId = findIdByFilter<Compressor_station, std::string>(net.CSArray, searchByName, name);
+    if (menuNeedEditingQuestionAction())
+        menuBatchEditingActoin(net, vectId, false);
 }
 
 
@@ -127,7 +204,8 @@ void csFilterByPercentDisWsMenuAction(Network& net)
     }
 
     std::vector<std::string> availableCompareOperators;
-    getAvailableCompareOperators(availableCompareOperators);
+    if (menuNeedEditingQuestionAction())
+        getAvailableCompareOperators(availableCompareOperators);
 
     for (auto i : availableCompareOperators)
     {
@@ -137,7 +215,9 @@ void csFilterByPercentDisWsMenuAction(Network& net)
         }
     }
 
-    findIdByFilter<Compressor_station, forDisabledWorkshopsFilter>(net.CSArray, searchByPercentDisabledWorkshops, str);
+    std::vector<int> vectId;
+    vectId = findIdByFilter<Compressor_station, forDisabledWorkshopsFilter>(net.CSArray, searchByPercentDisabledWorkshops, str);
+    menuBatchEditingActoin(net, vectId, false);
 }
 
 

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BatchEditingManager.cpp" />
     <ClCompile Include="Compressor_station.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Network.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BatchEditingManager.h" />
     <ClInclude Include="Compressor_station.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="NetworkFilter.h" />
