@@ -69,7 +69,7 @@ void Network::deleteEnement(std::unordered_map<int, T>& umap, int id)
     if (umap.count(id))
         umap.erase(id);
     else
-        cout << "No element with id " << id << "\n";
+        std::cout << "No element with id " << id << "\n";
 }
 
 
@@ -79,5 +79,5 @@ void Network::edit(std::unordered_map<int, T>& umap, int id)
     if (umap.count(id))
         umap[id].edit();
     else 
-        cout << "No element with id " << id << "\n";
+        std::cout << "No element with id " << id << "\n";
 }
