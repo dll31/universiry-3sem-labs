@@ -88,30 +88,7 @@ void Pipe::edit()
 
 void Pipe::checkCorrectInRepairValue()
 {
-    while (true)
-    {
-        char ch;
-
-        std::cout << "Enter pipe in repair parameter (y or n):\n";
-        std::cin >> ch;
-        repairCin();
-
-        if (std::cin.fail())
-            continue;
-
-        ch = char(std::tolower(ch));
-        if (ch == 'y')
-        {
-            inRepair = true;
-            break;
-        }
-
-        else if (ch == 'n')
-        {
-            inRepair = false;
-            break;
-        }
-    }
+    inRepair = checkCorrectYonNValue("Enter pipe in repair parameter (y or n):\n");
 }
 
 
