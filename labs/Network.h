@@ -100,9 +100,11 @@ void Network::displayByVectorIds(std::unordered_map<int, T>& umap, std::vector<i
     for (auto i : vectId)
     {
         if (umap.count(i))
+        {
             umap[i].display();
+            std::cout << "\n";
+        }
         else
             std::cout << "No element with id " << i << "\n";
     }
-    std::cout << "\n";
 }
