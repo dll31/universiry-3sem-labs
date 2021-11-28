@@ -41,11 +41,16 @@ std::vector<int> getUserVectorId()
 template <typename vectorType>
 std::string numericalVectorToString(std::vector<vectorType>& userVector)
 {
-    std::string str = "";
-    for (auto i : userVector)
-        str += (std::to_string(i) + " ");
+    //from https://stackoverflow.com/questions/8581832/converting-a-vectorint-to-string
+    std::ostringstream oss;
+    
+    if (!userVector.empty())
+    {
+        std::copy(userVector.begin(), userVector.end() - 1, std::ostream_iterator<vectorType>(oss, " "));
+        oss << userVector.back();
+    }
 
-    return str;
+    return oss.str();
 }
 
 
