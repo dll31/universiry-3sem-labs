@@ -7,6 +7,23 @@
 #include "Pipe.h"
 #include "Compressor_station.h"
 
+typedef int connectedPipeId;
+
+struct CsConnectionData
+{   
+    int startCsId;
+    int startCsWorkshopId;
+
+    int endCsId;
+    int endCsWorkshopId;
+};
+
+
+class ConnectionMap
+{
+    std::unordered_map<connectedPipeId, CsConnectionData> links; // aka dumbbells
+};
+
 
 class Network
 {
@@ -18,6 +35,8 @@ public:
 
     std::unordered_map<int, Pipe> Pipeline;
     std::unordered_map<int, Compressor_station> CSArray;
+
+    ConnectionMap Map;
 
     void loadElementsFromFile(std::string file);
     void saveInFile(std::string file);
@@ -43,6 +62,9 @@ public:
     void displayByVectorIds(std::unordered_map<int, T>& umap, std::vector<int>& vectId);
 
     void clearAllElements();
+
+    //TODO:
+    void connect();
 };
 
 
