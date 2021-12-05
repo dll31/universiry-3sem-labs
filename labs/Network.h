@@ -7,23 +7,6 @@
 #include "Pipe.h"
 #include "Compressor_station.h"
 
-typedef int connectedPipeId;
-
-struct CsConnectionData
-{   
-    int startCsId;
-    int startCsWorkshopId;
-
-    int endCsId;
-    int endCsWorkshopId;
-};
-
-
-class ConnectionMap
-{
-    std::unordered_map<connectedPipeId, CsConnectionData> links; // aka dumbbells
-};
-
 
 class Network
 {
