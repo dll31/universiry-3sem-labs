@@ -137,7 +137,10 @@ void Network::clearAllElements()
 {
     Pipeline.clear();
     CSArray.clear();
-}int Network::connectParametersIsExist(int pipeId, CsConnectionData csData)
+}
+
+
+int Network::connectParametersIsExist(int pipeId, CsConnectionData csData)
 {
     if (!Pipeline.count(pipeId))
         return pipeIsUnexist;
@@ -156,3 +159,21 @@ void Network::clearAllElements()
 
     return 0;
 }
+
+
+int Network::connect(int pipeId, CsConnectionData csData)
+{
+    //check if parameters exist
+    int error = connectParametersIsExist(pipeId, csData);
+    if (!error)
+        return error;
+
+    // check if parameters is available
+    error = Map.connentParametersAvailable(pipeId, csData);
+    if (!error)
+        return error;
+    
+    //connect
+    Map.addLink(pipeId, csData);
+}
+

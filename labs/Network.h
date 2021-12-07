@@ -47,9 +47,8 @@ public:
 
     void clearAllElements();
 
-    //TODO:
-    void connect();
     int connectParametersIsExist(int pipeId, CsConnectionData csData);
+    int connect(int pipeId, CsConnectionData csData);
 };
 
 
