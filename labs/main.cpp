@@ -73,6 +73,84 @@ int menuInputAction()
 }
 
 
+
+void menuMakeConnection(Network& net)
+{
+    int pipeId = -1;
+    inputGoodValueFromCin((std::string)"Enter connection pipe id:\n", pipeId, 0, std::numeric_limits<int>::max());
+    
+    CsConnectionData data;
+    inputGoodValueFromCin((std::string)"Enter start connection cs id:\n", data.startCS.id, 0, std::numeric_limits<int>::max());
+
+    inputGoodValueFromCin((std::string)"Enter start connection cs workshop id:\n", data.startCS.workshopId, 0, std::numeric_limits<int>::max());
+
+    inputGoodValueFromCin((std::string)"Enter end connection cs id:\n", data.endCS.id, 0, std::numeric_limits<int>::max());
+
+    inputGoodValueFromCin((std::string)"Enter end connection cs workshop id:\n", data.endCS.workshopId, 0, std::numeric_limits<int>::max());
+
+    int error = 0;
+    error = net.connect(pipeId, data);
+
+    switch (error)
+    {
+    
+    case 0:
+    {
+        std::cout << "Succesfull connection\n";
+        break;
+    }
+
+    case pipeIsUnexist:
+    {
+        std::cout << "Pipe with id " << pipeId << "is unexist\n";
+        break;
+    }
+
+    case pipeIsUnavailable:
+    {
+        std::cout << "Pipe with id " << pipeId << "already in connection\n";
+        break;
+    }
+
+    case startCsIsUnexist:
+    {
+        std::cout << "Start cs with id " << data.startCS.id << "is unexist\n";
+        break;
+    }
+
+    case endCsIsUnexist:
+    {
+        std::cout << "End cs with id " << data.endCS.id << "is unexist\n";
+        break;
+    }
+
+    case startCsWorkshopIsUnexist:
+    {
+        std::cout << "Start cs workshop with id " << data.startCS.workshopId << "is unexist\n";
+        break;
+    }
+
+    case endCsWorkshopIsUnexist:
+    {
+        std::cout << "end cs workshop with id " << data.endCS.workshopId << "is unexist\n";
+        break;
+    }
+
+    case startCsWorkshopIsUnavailable:
+    {
+        std::cout << "Start cs workshop with id " << data.startCS.workshopId << "is already use in connection\n";
+        break;
+    }
+
+    case endCsWorkshopIsUnavailable:
+    {
+        std::cout << "End cs workshop with id " << data.endCS.workshopId << "is already use in connection\n";
+        break;
+    }
+    }
+}
+
+
 void menuNeedEditingQuestionShow()
 {
     std::cout << "Do you have edit selected elements? (y or n)\n"
