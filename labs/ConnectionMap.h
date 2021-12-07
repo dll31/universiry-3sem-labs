@@ -4,6 +4,7 @@
 
 #include "Pipe.h"
 #include "Compressor_station.h"
+#include "utility.h"
 
 
 typedef int connectedPipeId;
@@ -27,6 +28,9 @@ class ConnectionMap
 {
     std::unordered_map<connectedPipeId, CsConnectionData> links; // aka dumbbells
 
-
+public:
     void addLink(int pipeId, CsConnectionData csData);
+
+    int connentParametersAvailable(int pipeId, CsConnectionData csData);
+
 };
