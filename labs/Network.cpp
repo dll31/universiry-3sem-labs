@@ -137,4 +137,22 @@ void Network::clearAllElements()
 {
     Pipeline.clear();
     CSArray.clear();
+}int Network::connectParametersIsExist(int pipeId, CsConnectionData csData)
+{
+    if (!Pipeline.count(pipeId))
+        return pipeIsUnexist;
+
+    if (!CSArray.count(csData.startCS.id))
+        return startCsIsUnexist;
+
+    if (!CSArray.count(csData.endCS.id))
+        return endCsIsUnexist;
+
+    if (CSArray[csData.startCS.id].getcountWorkshops() < csData.startCS.workshopId)
+        return startCsWorkshopIsUnexist;
+    
+    if (CSArray[csData.endCS.id].getcountWorkshops() < csData.endCS.workshopId)
+        return endCsWorkshopIsUnexist;
+
+    return 0;
 }

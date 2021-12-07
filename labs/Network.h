@@ -6,6 +6,7 @@
 
 #include "Pipe.h"
 #include "Compressor_station.h"
+#include "ConnectionMap.h"
 
 
 class Network
@@ -48,6 +49,7 @@ public:
 
     //TODO:
     void connect();
+    int connectParametersIsExist(int pipeId, CsConnectionData csData);
 };
 
 
