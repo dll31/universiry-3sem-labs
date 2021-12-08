@@ -106,7 +106,7 @@ template <typename T>
 void Network::displayByVectorIds(std::unordered_map<int, T>& umap, std::vector<int>& vectId)
 {
     std::cout << "\n";
-    for (auto i : vectId)
+    for (auto& i : vectId)
     {
         if (umap.count(i))
         {

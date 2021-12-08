@@ -376,7 +376,7 @@ void csFilterByPercentDisWsMenuAction(Network& net)
     std::vector<std::string> availableCompareOperators;
     getAvailableCompareOperators(availableCompareOperators);
 
-    for (auto i : availableCompareOperators)
+    for (auto& i : availableCompareOperators)
     {
         if (bigFrase.find(i) != std::string::npos)
         {

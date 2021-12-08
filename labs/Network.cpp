@@ -63,7 +63,7 @@ void Network::saveInFile(std::string file)
     if (fout.is_open())
     {
 
-        for (auto i : Pipeline)
+        for (auto& i : Pipeline)
         {
             fout << pipeSepInFile << '\n';
             rc = i.second.save(fout);
@@ -73,7 +73,7 @@ void Network::saveInFile(std::string file)
         }
 
         rc = 0;
-        for (auto i : CSArray)
+        for (auto& i : CSArray)
         {
             fout << compStationSepInFile << '\n';
             rc = i.second.save(fout);
@@ -117,14 +117,14 @@ void Network::csInputConsole()
 void Network::display()
 {
     std::cout << "Comprssor stations:" << '\n';
-    for (auto i : CSArray)
+    for (auto& i : CSArray)
     {
         i.second.display();
         std::cout << '\n';
     }
 
     std::cout << '\n' << "Pipes:" << '\n';
-    for (auto i : Pipeline)
+    for (auto& i : Pipeline)
     {
         i.second.display();
         std::cout << '\n';
