@@ -4,6 +4,54 @@
 #include <algorithm>
 
 
+void parseConnectionAccessErrors(int error)
+{
+    switch (error)
+    {
+    
+    case available:
+    {
+        break;
+    }
+
+    case have:
+    {
+        break;
+    }
+
+    case exist:
+    {
+        break;
+    }
+
+    case pipeIsUnavailable:
+    {
+        std::cout << "Pipe is unavailable\n";
+        break;
+    }
+
+    case pipeIsUnexist:
+    {
+        std::cout << "Pipe is unexist\n";
+        break;
+    }
+
+    case csIsUnexist:
+    {
+        std::cout << "CS is unexist\n";
+        break;
+    }
+
+    case csWorkshopIsUnavailable:
+    {
+        std::cout << "This CS dont have free workshop\n";
+        break;
+    }
+
+    }
+}
+
+
 void repairCin()
 {
     std::cin.clear();

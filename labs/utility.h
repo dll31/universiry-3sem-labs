@@ -8,20 +8,17 @@ enum connectionGetAccessErrors
     pipeIsUnavailable = -1,
     pipeIsUnexist = -2,
 
-    startCsWorkshopIsUnavailable = -12,
-    
-    startCsIsUnexist = -13,
-    startCsWorkshopIsUnexist = -14,
+    csWorkshopIsUnavailable = -12,
 
-    endCsWorkshopIsUnavailable = -22,
-    
-    endCsIsUnexist = -23,
-    endCsWorkshopIsUnexist = -24,
-    
+    csIsUnexist = -13,
+
     available = 1,
-    exist = 1
+    exist = 2,
+    have = 3
 };
 
+
+void parseConnectionAccessErrors(int error);
 
 void repairCin();
 

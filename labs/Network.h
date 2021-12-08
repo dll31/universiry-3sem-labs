@@ -47,7 +47,10 @@ public:
 
     void clearAllElements();
 
-    int connectParametersIsExist(int pipeId, CsConnectionData csData);
+    int pipeIsExist(int pipeId);
+    int csIsExist(int csId);
+    int csHaveFreeWorkshop(int csId);
+
     int connect(int pipeId, CsConnectionData csData);
 };
 

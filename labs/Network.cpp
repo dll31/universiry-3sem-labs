@@ -140,40 +140,38 @@ void Network::clearAllElements()
 }
 
 
-int Network::connectParametersIsExist(int pipeId, CsConnectionData csData)
+int Network::pipeIsExist(int pipeId)
 {
     if (!Pipeline.count(pipeId))
         return pipeIsUnexist;
 
-    if (!CSArray.count(csData.startCS.id))
-        return startCsIsUnexist;
+    return exist;
+}
 
-    if (!CSArray.count(csData.endCS.id))
-        return endCsIsUnexist;
 
-    if (CSArray[csData.startCS.id].getcountWorkshops() < csData.startCS.workshopId)
-        return startCsWorkshopIsUnexist;
-    
-    if (CSArray[csData.endCS.id].getcountWorkshops() < csData.endCS.workshopId)
-        return endCsWorkshopIsUnexist;
+int Network::csIsExist(int csId)
+{
+    if (!CSArray.count(csId))
+        return csIsUnexist;
 
-    return 0;
+    return exist;
+}
+
+
+int Network::csHaveFreeWorkshop(int csId)
+{
+    if (CSArray[csId].getCountWorkedWorkshops() == Map.getCsBusyWorkshops(csId))
+        return csWorkshopIsUnavailable;
+
+    return have;
 }
 
 
 int Network::connect(int pipeId, CsConnectionData csData)
 {
-    //check if parameters exist
-    int error = connectParametersIsExist(pipeId, csData);
-    if (!error)
-        return error;
-
-    // check if parameters is available
-    error = Map.connentParametersAvailable(pipeId, csData);
-    if (!error)
-        return error;
-    
     //connect
     Map.addLink(pipeId, csData);
+
+    return 0;
 }
 

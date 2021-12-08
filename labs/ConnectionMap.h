@@ -13,7 +13,7 @@ typedef int connectedPipeId;
 struct CsLink
 {
     int id;
-    int workshopId;
+    //int workshopId;
 };
 
 
@@ -32,5 +32,10 @@ public:
     void addLink(int pipeId, CsConnectionData csData);
 
     int connentParametersAvailable(int pipeId, CsConnectionData csData);
+    int getCsBusyWorkshops(int csId);
+
+    int pipeIsAvailable(int pipeId);
+
+    int csIsAvailable(int csId);
 
 };

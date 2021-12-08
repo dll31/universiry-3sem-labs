@@ -77,77 +77,52 @@ int menuInputAction()
 void menuMakeConnection(Network& net)
 {
     int pipeId = -1;
-    inputGoodValueFromCin((std::string)"Enter connection pipe id:\n", pipeId, 0, std::numeric_limits<int>::max());
-    
+    while (true)
+    {
+        inputGoodValueFromCin((std::string)"Enter connection pipe id:\n", pipeId, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        int error = net.pipeIsExist(pipeId);
+        parseConnectionAccessErrors(error);
+        if (error > 0)
+        {
+            error = net.Map.pipeIsAvailable(pipeId);
+            parseConnectionAccessErrors(error);
+            if (error > 0)
+                break;
+        }
+    }
+
     CsConnectionData data;
-    inputGoodValueFromCin((std::string)"Enter start connection cs id:\n", data.startCS.id, 0, std::numeric_limits<int>::max());
-
-    inputGoodValueFromCin((std::string)"Enter start connection cs workshop id:\n", data.startCS.workshopId, 0, std::numeric_limits<int>::max());
-
-    inputGoodValueFromCin((std::string)"Enter end connection cs id:\n", data.endCS.id, 0, std::numeric_limits<int>::max());
-
-    inputGoodValueFromCin((std::string)"Enter end connection cs workshop id:\n", data.endCS.workshopId, 0, std::numeric_limits<int>::max());
-
-    int error = 0;
-    error = net.connect(pipeId, data);
-
-    switch (error)
-    {
     
-    case 0:
+    while (true)
     {
-        std::cout << "Succesfull connection\n";
-        break;
+        inputGoodValueFromCin((std::string)"Enter start connection cs id:\n", data.startCS.id, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        int error = net.csIsExist(data.startCS.id);
+        parseConnectionAccessErrors(error);
+        if (error > 0)
+        {
+            error = net.csHaveFreeWorkshop(data.startCS.id);
+            parseConnectionAccessErrors(error);
+            if (error > 0)
+                break;
+        }
     }
 
-    case pipeIsUnexist:
+    while (true)
     {
-        std::cout << "Pipe with id " << pipeId << "is unexist\n";
-        break;
+        inputGoodValueFromCin((std::string)"Enter end connection cs id:\n", data.endCS.id, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        int error = net.csIsExist(data.endCS.id);
+        parseConnectionAccessErrors(error);
+        if (error > 0)
+        {
+            error = net.csHaveFreeWorkshop(data.endCS.id);
+            parseConnectionAccessErrors(error);
+            if (error > 0)
+                break;
+        }
     }
 
-    case pipeIsUnavailable:
-    {
-        std::cout << "Pipe with id " << pipeId << "already in connection\n";
-        break;
-    }
+    net.connect(pipeId, data);
 
-    case startCsIsUnexist:
-    {
-        std::cout << "Start cs with id " << data.startCS.id << "is unexist\n";
-        break;
-    }
-
-    case endCsIsUnexist:
-    {
-        std::cout << "End cs with id " << data.endCS.id << "is unexist\n";
-        break;
-    }
-
-    case startCsWorkshopIsUnexist:
-    {
-        std::cout << "Start cs workshop with id " << data.startCS.workshopId << "is unexist\n";
-        break;
-    }
-
-    case endCsWorkshopIsUnexist:
-    {
-        std::cout << "end cs workshop with id " << data.endCS.workshopId << "is unexist\n";
-        break;
-    }
-
-    case startCsWorkshopIsUnavailable:
-    {
-        std::cout << "Start cs workshop with id " << data.startCS.workshopId << "is already use in connection\n";
-        break;
-    }
-
-    case endCsWorkshopIsUnavailable:
-    {
-        std::cout << "End cs workshop with id " << data.endCS.workshopId << "is already use in connection\n";
-        break;
-    }
-    }
 }
 
 
@@ -536,6 +511,7 @@ void mainMenuShow()
         << "6. Load" << "\n"
         << "7. Edit" << "\n"
         << "8. Clear all objects" << "\n"
+        << "9. Create connection" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -598,6 +574,12 @@ int main()
         case 8:
         {
             net.clearAllElements();
+            break;
+        }
+
+        case 9:
+        {
+            menuMakeConnection(net);
             break;
         }
 
