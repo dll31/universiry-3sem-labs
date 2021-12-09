@@ -34,6 +34,17 @@ int ConnectionMap::getCsBusyWorkshops(int csId)
 }
 
 
+void ConnectionMap::display()
+{
+	for (auto& i : links)
+	{
+		std::cout << "\nConnection:\n"
+			<< "Pipe id: " << i.first << '\n'
+			<< "Start cs id: " << i.second.startCS.id << '\n'
+			<< "End cs Id: " << i.second.endCS.id << '\n';
+	}
+}
+
 
 std::stack<int> ConnectionMap::topologicalSort()
 {

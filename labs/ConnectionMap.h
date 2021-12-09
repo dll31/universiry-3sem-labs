@@ -47,6 +47,7 @@ public:
 
     int pipeIsAvailable(int pipeId);
 
+    void display();
 
     void displayTopSortResult(std::stack<int> res);
 

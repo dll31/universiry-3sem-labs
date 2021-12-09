@@ -78,6 +78,10 @@ void menuTopSort(Network& net)
     net.Map.displayTopSortResult(net.Map.topologicalSort());
 }
 
+void menuDisplayConnections(Network& net)
+{
+    net.Map.display();
+}
 void menuMakeConnection(Network& net)
 {
     int pipeId = -1;
@@ -516,6 +520,7 @@ void mainMenuShow()
         << "7. Edit" << "\n"
         << "8. Clear all objects" << "\n"
         << "9. Create connection" << "\n"
+        << "10. Display connections" << "\n"
         << "11. Top sort" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
@@ -588,6 +593,11 @@ int main()
             break;
         }
 
+        case 10:
+        {
+            menuDisplayConnections(net);
+            break;
+        }
         case 11:
         {
             menuTopSort(net);
