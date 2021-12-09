@@ -4,10 +4,19 @@
 #include <fstream>
 #include <sstream>
 
+
 #include "Network.h"
 #include "utility.h"
 #include "NetworkFilter.h"
 #include "BatchEditingManager.h"
+
+bool breakOperation(int num)
+{
+    if (num != -1)
+        return false;
+
+    return true;
+}
 
 
 std::string getUserFilename()
@@ -82,12 +91,19 @@ void menuDisplayConnections(Network& net)
 {
     net.Map.display();
 }
+
+
 void menuMakeConnection(Network& net)
 {
+
     int pipeId = -1;
     while (true)
     {
-        inputGoodValueFromCin((std::string)"Enter connection pipe id:\n", pipeId, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        inputGoodValueFromCin((std::string)"Enter connection pipe id or press -1 for break operation\n", pipeId, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        
+        if (breakOperation(pipeId))
+            return;
+        
         int error = net.pipeIsExist(pipeId);
         parseConnectionAccessErrors(error);
         if (error > 0)
@@ -103,7 +119,11 @@ void menuMakeConnection(Network& net)
     
     while (true)
     {
-        inputGoodValueFromCin((std::string)"Enter start connection cs id:\n", data.startCS.id, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        inputGoodValueFromCin((std::string)"Enter start connection cs id press -1 for break operation\n", data.startCS.id, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        
+        if (breakOperation(data.startCS.id))
+            return;
+        
         int error = net.csIsExist(data.startCS.id);
         parseConnectionAccessErrors(error);
         if (error > 0)
@@ -117,7 +137,17 @@ void menuMakeConnection(Network& net)
 
     while (true)
     {
-        inputGoodValueFromCin((std::string)"Enter end connection cs id:\n", data.endCS.id, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        inputGoodValueFromCin((std::string)"Enter end connection cs id or press -1 for break operation\n", data.endCS.id, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        
+        if (breakOperation(data.endCS.id))
+            return;
+
+        if (data.startCS.id == data.endCS.id)
+        {
+            std::cout << "Start cs id and end cs id cant be equal\n";
+            continue;
+        }
+
         int error = net.csIsExist(data.endCS.id);
         parseConnectionAccessErrors(error);
         if (error > 0)
@@ -130,7 +160,6 @@ void menuMakeConnection(Network& net)
     }
 
     net.connect(pipeId, data);
-
 }
 
 
@@ -598,11 +627,13 @@ int main()
             menuDisplayConnections(net);
             break;
         }
+
         case 11:
         {
             menuTopSort(net);
             break;
         }
+
         case 0:
         {
             return 0;
