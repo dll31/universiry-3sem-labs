@@ -1,6 +1,8 @@
 #pragma once
 
 #include <unordered_map>
+#include <map>
+#include <stack>
 
 #include "Pipe.h"
 #include "Compressor_station.h"
@@ -8,6 +10,13 @@
 
 
 typedef int connectedPipeId;
+
+enum color
+{
+    black = 0,
+    gray = 1,
+    white = 2,
+};
 
 
 struct CsLink
@@ -26,16 +35,21 @@ struct CsConnectionData
 
 class ConnectionMap
 {
-    std::unordered_map<connectedPipeId, CsConnectionData> links; // aka dumbbells
+    void dfs(int v, std::map<int, color>& visited, std::stack<int>& out);
 
 public:
+
+    std::unordered_map<connectedPipeId, CsConnectionData> links; // aka dumbbells
+
     void addLink(int pipeId, CsConnectionData csData);
 
-    int connentParametersAvailable(int pipeId, CsConnectionData csData);
     int getCsBusyWorkshops(int csId);
 
     int pipeIsAvailable(int pipeId);
 
-    int csIsAvailable(int csId);
+
+    void displayTopSortResult(std::stack<int> res);
+
+    std::stack<int> topologicalSort();
 
 };

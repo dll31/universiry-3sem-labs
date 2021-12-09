@@ -73,6 +73,10 @@ int menuInputAction()
 }
 
 
+void menuTopSort(Network& net)
+{
+    net.Map.displayTopSortResult(net.Map.topologicalSort());
+}
 
 void menuMakeConnection(Network& net)
 {
@@ -512,6 +516,7 @@ void mainMenuShow()
         << "7. Edit" << "\n"
         << "8. Clear all objects" << "\n"
         << "9. Create connection" << "\n"
+        << "11. Top sort" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -583,6 +588,11 @@ int main()
             break;
         }
 
+        case 11:
+        {
+            menuTopSort(net);
+            break;
+        }
         case 0:
         {
             return 0;
