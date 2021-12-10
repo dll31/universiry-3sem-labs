@@ -163,6 +163,25 @@ void menuMakeConnection(Network& net)
 }
 
 
+void menuMakeDisconnection(Network& net)
+{
+    int pipeId = -1;
+    while (true)
+    {
+        inputGoodValueFromCin((std::string)"Enter disconnection pipe id or press -1 for break operation\n", pipeId, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+
+        if (breakOperation(pipeId))
+            return;
+
+        if (net.disconnect(pipeId))
+            std::cout << "Successful operation\n";
+        else
+            std::cout << "Wrong id\n";
+    }
+
+}
+
+
 void menuNeedEditingQuestionShow()
 {
     std::cout << "Do you have edit selected elements? (y or n)\n"
@@ -549,8 +568,9 @@ void mainMenuShow()
         << "7. Edit" << "\n"
         << "8. Clear all objects" << "\n"
         << "9. Create connection" << "\n"
-        << "10. Display connections" << "\n"
-        << "11. Top sort" << "\n"
+        << "10. Disconnect" << "\n"
+        << "11. Display connections" << "\n"
+        << "12. Top sort" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -624,11 +644,17 @@ int main()
 
         case 10:
         {
-            menuDisplayConnections(net);
+            menuMakeDisconnection(net);
             break;
         }
 
         case 11:
+        {
+            menuDisplayConnections(net);
+            break;
+        }
+
+        case 12:
         {
             menuTopSort(net);
             break;

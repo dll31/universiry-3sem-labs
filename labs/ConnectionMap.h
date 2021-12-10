@@ -41,6 +41,7 @@ public:
     std::unordered_map<connectedPipeId, CsConnectionData> links; // aka dumbbells
 
     void addLink(int pipeId, CsConnectionData csData);
+    int removeLink(int pipeId);
 
     int getCsBusyWorkshops(int csId);
 

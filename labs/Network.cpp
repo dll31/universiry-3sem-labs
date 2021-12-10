@@ -189,5 +189,8 @@ int Network::connect(int pipeId, CsConnectionData csData)
     Map.addLink(pipeId, csData);
 
     return 0;
+int Network::disconnect(int pipeId)
+{
+    return Map.removeLink(pipeId);
 }
 

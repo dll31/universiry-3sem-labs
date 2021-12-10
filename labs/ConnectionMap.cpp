@@ -8,6 +8,17 @@ void ConnectionMap::addLink(int pipeId, CsConnectionData csData)
 }
 
 
+int ConnectionMap::removeLink(int pipeId)
+{
+	if (links.count(pipeId))
+	{
+		links.erase(pipeId);
+		return 1;
+	}
+	return 0;
+}
+
+
 int ConnectionMap::pipeIsAvailable(int pipeId)
 {
 	if (links.count(pipeId))
