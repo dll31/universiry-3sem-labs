@@ -38,6 +38,15 @@ void Network::loadElementsFromFile(std::string file)
                     CSArray.insert({ cs.getId(), cs });
                 }
             }
+            else if (sep == linkSepInFile)
+            {
+                int pipeId;
+                CsConnectionData data;
+                fin >> pipeId
+                    >> data.startCS.id
+                    >> data.endCS.id;
+                Map.addLink(pipeId, data);
+            }
 
             if (rc < 0)
             {
@@ -62,7 +71,6 @@ void Network::saveInFile(std::string file)
     std::ofstream fout(file);
     if (fout.is_open())
     {
-
         for (auto& i : Pipeline)
         {
             fout << pipeSepInFile << '\n';
@@ -80,6 +88,14 @@ void Network::saveInFile(std::string file)
 
             if (rc < 0)
                 break;
+        }
+
+        for (auto& i : Map.links)
+        {
+            fout << linkSepInFile << '\n'
+                << i.first << '\n'
+                << i.second.startCS.id << '\n'
+                << i.second.endCS.id << '\n';
         }
 
         fout.close();

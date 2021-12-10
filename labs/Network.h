@@ -14,6 +14,7 @@ class Network
 private:
     std::string pipeSepInFile = "Pipe";
     std::string compStationSepInFile = "CS";
+    std::string linkSepInFile = "Link";
 
 public:
 
