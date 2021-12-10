@@ -73,7 +73,7 @@ void ConnectionMap::dfs(int v, std::map<int, color>& visited, std::stack<int>& o
 
 	if (visited[v] == gray)
 		return; //have cycle
-
+		
 	if (visited[v] == white)
 	{
 		visited[v] = gray;
@@ -96,9 +96,11 @@ void ConnectionMap::displayTopSortResult(std::stack<int> res)
 {
 	std::cout << '\n' << "TopSortRes:" << '\n';
 	
-	for (int i = 1; i <= res.size(); i++)
+	int i = 1;
+	while (!res.empty())
 	{
 		std::cout << i << " - " << res.top() << '\n';
 		res.pop();
+		i++;
 	}
 }
