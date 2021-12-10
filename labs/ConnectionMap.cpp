@@ -115,3 +115,9 @@ void ConnectionMap::displayTopSortResult(std::stack<int> res)
 		i++;
 	}
 }
+
+
+void ConnectionMap::clear()
+{
+	links.clear();
+}

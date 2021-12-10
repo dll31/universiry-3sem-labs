@@ -153,6 +153,7 @@ void Network::clearAllElements()
 {
     Pipeline.clear();
     CSArray.clear();
+    Map.clear();
 }
 
 

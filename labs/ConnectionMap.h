@@ -52,4 +52,6 @@ public:
     void displayTopSortResult(std::stack<int> res);
 
     std::stack<int> topologicalSort();
+
+    void clear();
 };
