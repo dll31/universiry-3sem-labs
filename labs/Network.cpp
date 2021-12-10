@@ -184,12 +184,12 @@ int Network::csHaveFreeWorkshop(int csId)
 }
 
 
-int Network::connect(int pipeId, CsConnectionData csData)
+void Network::connect(int pipeId, CsConnectionData csData)
 {
-    //connect
     Map.addLink(pipeId, csData);
+}
 
-    return 0;
+
 int Network::disconnect(int pipeId)
 {
     return Map.removeLink(pipeId);

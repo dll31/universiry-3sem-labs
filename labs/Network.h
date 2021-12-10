@@ -52,7 +52,7 @@ public:
     int csIsExist(int csId);
     int csHaveFreeWorkshop(int csId);
 
-    int connect(int pipeId, CsConnectionData csData);
+    void connect(int pipeId, CsConnectionData csData);
     int disconnect(int pipeId);
 };
 
