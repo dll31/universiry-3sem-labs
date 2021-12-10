@@ -11,6 +11,7 @@ enum connectionGetAccessErrors
     csWorkshopIsUnavailable = -12,
 
     csIsUnexist = -13,
+    csIsUnavailable = -14,
 
     available = 1,
     exist = 2,

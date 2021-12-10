@@ -28,6 +28,18 @@ int ConnectionMap::pipeIsAvailable(int pipeId)
 }
 
 
+int ConnectionMap::csIsAvailable(int csId)
+{
+	for (auto& i : links)
+	{
+		if ((i.second.startCS.id == csId) || (i.second.endCS.id == csId))
+			return csIsUnavailable;
+	}
+
+	return available;
+}
+
+
 int ConnectionMap::getCsBusyWorkshops(int csId)
 {
 	int busyWorkshops = 0;
@@ -99,7 +111,6 @@ void ConnectionMap::dfs(int v, std::map<int, color>& visited, std::stack<int>& o
 		visited[v] = black;
 		out.push(v);
 	}
-
 }
 
 

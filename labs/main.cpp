@@ -281,9 +281,9 @@ void menuBatchEditingAction(Network& net, std::vector<int>& vId, bool isPipeSelc
         case 1:
         {
             if (isPipeSelcted)
-                batchEditingById<Network, Pipe, int>(net, vId, &Network::deleteEnement<Pipe>, net.Pipeline);
+                batchEditingById<Network, Pipe, int>(net, vId, &Network::deleteElement<Pipe>, net.Pipeline);
             else 
-                batchEditingById<Network, Compressor_station, int>(net, vId, &Network::deleteEnement<Compressor_station>, net.CSArray);
+                batchEditingById<Network, Compressor_station, int>(net, vId, &Network::deleteElement<Compressor_station>, net.CSArray);
             return;
         }
 
@@ -458,7 +458,7 @@ void filteterMenuShow()
         << "\t1. in repair parameter\n"
         << "\n Search compressor stations by:\n"
         << "\t2. name\n"
-        << "\t3. percent disabled workshops\n"
+        << "\t3. percent disabled workshops\n\n"
         << "Other options:\n"
         << "\t0. for exit\n"
         << "Choose your action: ";

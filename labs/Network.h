@@ -33,7 +33,7 @@ public:
     void csInputConsole();
 
     template <typename T>
-    void deleteEnement(std::unordered_map<int, T>& umap, int id);
+    void deleteElement(std::unordered_map<int, T>& umap, int id);
 
     template <typename classType>
     void editElement(std::unordered_map<int, classType>& umap, int id);
@@ -75,8 +75,25 @@ int Network::getId(std::unordered_map<int, T>& umap)
 
 
 template <typename T>
-void Network::deleteEnement(std::unordered_map<int, T>& umap, int id)
+void Network::deleteElement(std::unordered_map<int, T>& umap, int id)
 {
+    if (typeid(T) == typeid(Pipe))
+    {
+        if (Map.pipeIsAvailable(id) < 0)
+        {
+            std::cout << "disconnect pipe with id " << id << " before delete\n";
+            return;
+        }
+    }
+    else if (typeid(T) == typeid(Compressor_station))
+    {
+        if (Map.csIsAvailable(id) < 0)
+        {
+            std::cout << "disconnect CS with id " << id << " before delete\n";
+            return;
+        }
+    }
+    
     if (umap.count(id))
         umap.erase(id);
     else

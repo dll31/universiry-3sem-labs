@@ -46,6 +46,7 @@ public:
     int getCsBusyWorkshops(int csId);
 
     int pipeIsAvailable(int pipeId);
+    int csIsAvailable(int csId);
 
     void display();
 
