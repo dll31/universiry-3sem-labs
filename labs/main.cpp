@@ -4,10 +4,19 @@
 #include <fstream>
 #include <sstream>
 
+
 #include "Network.h"
 #include "utility.h"
 #include "NetworkFilter.h"
 #include "BatchEditingManager.h"
+
+bool breakOperation(int num)
+{
+    if (num != -1)
+        return false;
+
+    return true;
+}
 
 
 std::string getUserFilename()
@@ -41,11 +50,16 @@ std::vector<int> getUserVectorId()
 template <typename vectorType>
 std::string numericalVectorToString(std::vector<vectorType>& userVector)
 {
-    std::string str = "";
-    for (auto i : userVector)
-        str += (std::to_string(i) + " ");
+    //from https://stackoverflow.com/questions/8581832/converting-a-vectorint-to-string
+    std::ostringstream oss;
+    
+    if (!userVector.empty())
+    {
+        std::copy(userVector.begin(), userVector.end() - 1, std::ostream_iterator<vectorType>(oss, " "));
+        oss << userVector.back();
+    }
 
-    return str;
+    return oss.str();
 }
 
 
@@ -65,6 +79,106 @@ int menuInputAction()
 
         return action;
     }
+}
+
+
+void menuTopSort(Network& net)
+{
+    net.Map.displayTopSortResult(net.Map.topologicalSort());
+}
+
+void menuDisplayConnections(Network& net)
+{
+    net.Map.display();
+}
+
+
+void menuMakeConnection(Network& net)
+{
+
+    int pipeId = -1;
+    while (true)
+    {
+        inputGoodValueFromCin((std::string)"Enter connection pipe id or press -1 for break operation\n", pipeId, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        
+        if (breakOperation(pipeId))
+            return;
+        
+        int error = net.pipeIsExist(pipeId);
+        parseConnectionAccessErrors(error);
+        if (error > 0)
+        {
+            error = net.Map.pipeIsAvailable(pipeId);
+            parseConnectionAccessErrors(error);
+            if (error > 0)
+                break;
+        }
+    }
+
+    CsConnectionData data;
+    
+    while (true)
+    {
+        inputGoodValueFromCin((std::string)"Enter start connection cs id press -1 for break operation\n", data.startCS.id, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        
+        if (breakOperation(data.startCS.id))
+            return;
+        
+        int error = net.csIsExist(data.startCS.id);
+        parseConnectionAccessErrors(error);
+        if (error > 0)
+        {
+            error = net.csHaveFreeWorkshop(data.startCS.id);
+            parseConnectionAccessErrors(error);
+            if (error > 0)
+                break;
+        }
+    }
+
+    while (true)
+    {
+        inputGoodValueFromCin((std::string)"Enter end connection cs id or press -1 for break operation\n", data.endCS.id, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+        
+        if (breakOperation(data.endCS.id))
+            return;
+
+        if (data.startCS.id == data.endCS.id)
+        {
+            std::cout << "Start cs id and end cs id cant be equal\n";
+            continue;
+        }
+
+        int error = net.csIsExist(data.endCS.id);
+        parseConnectionAccessErrors(error);
+        if (error > 0)
+        {
+            error = net.csHaveFreeWorkshop(data.endCS.id);
+            parseConnectionAccessErrors(error);
+            if (error > 0)
+                break;
+        }
+    }
+
+    net.connect(pipeId, data);
+}
+
+
+void menuMakeDisconnection(Network& net)
+{
+    int pipeId = -1;
+    while (true)
+    {
+        inputGoodValueFromCin((std::string)"Enter disconnection pipe id or press -1 for break operation\n", pipeId, std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+
+        if (breakOperation(pipeId))
+            return;
+
+        if (net.disconnect(pipeId))
+            std::cout << "Successful operation\n";
+        else
+            std::cout << "Wrong id\n";
+    }
+
 }
 
 
@@ -167,9 +281,9 @@ void menuBatchEditingAction(Network& net, std::vector<int>& vId, bool isPipeSelc
         case 1:
         {
             if (isPipeSelcted)
-                batchEditingById<Network, Pipe, int>(net, vId, &Network::deleteEnement<Pipe>, net.Pipeline);
+                batchEditingById<Network, Pipe, int>(net, vId, &Network::deleteElement<Pipe>, net.Pipeline);
             else 
-                batchEditingById<Network, Compressor_station, int>(net, vId, &Network::deleteEnement<Compressor_station>, net.CSArray);
+                batchEditingById<Network, Compressor_station, int>(net, vId, &Network::deleteElement<Compressor_station>, net.CSArray);
             return;
         }
 
@@ -318,7 +432,7 @@ void csFilterByPercentDisWsMenuAction(Network& net)
     std::vector<std::string> availableCompareOperators;
     getAvailableCompareOperators(availableCompareOperators);
 
-    for (auto i : availableCompareOperators)
+    for (auto& i : availableCompareOperators)
     {
         if (bigFrase.find(i) != std::string::npos)
         {
@@ -344,7 +458,7 @@ void filteterMenuShow()
         << "\t1. in repair parameter\n"
         << "\n Search compressor stations by:\n"
         << "\t2. name\n"
-        << "\t3. percent disabled workshops\n"
+        << "\t3. percent disabled workshops\n\n"
         << "Other options:\n"
         << "\t0. for exit\n"
         << "Choose your action: ";
@@ -453,6 +567,10 @@ void mainMenuShow()
         << "6. Load" << "\n"
         << "7. Edit" << "\n"
         << "8. Clear all objects" << "\n"
+        << "9. Create connection" << "\n"
+        << "10. Disconnect" << "\n"
+        << "11. Display connections" << "\n"
+        << "12. Top sort" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -515,6 +633,30 @@ int main()
         case 8:
         {
             net.clearAllElements();
+            break;
+        }
+
+        case 9:
+        {
+            menuMakeConnection(net);
+            break;
+        }
+
+        case 10:
+        {
+            menuMakeDisconnection(net);
+            break;
+        }
+
+        case 11:
+        {
+            menuDisplayConnections(net);
+            break;
+        }
+
+        case 12:
+        {
+            menuTopSort(net);
             break;
         }
 

@@ -2,6 +2,25 @@
 
 #include <iostream>
 
+
+enum connectionGetAccessErrors
+{
+    pipeIsUnavailable = -1,
+    pipeIsUnexist = -2,
+
+    csWorkshopIsUnavailable = -12,
+
+    csIsUnexist = -13,
+    csIsUnavailable = -14,
+
+    available = 1,
+    exist = 2,
+    have = 3
+};
+
+
+void parseConnectionAccessErrors(int error);
+
 void repairCin();
 
 
