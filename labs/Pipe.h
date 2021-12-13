@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 class Pipe
 {
@@ -13,6 +14,7 @@ public:
     int diameter;
     double length;
     bool inRepair = false;
+    int throughput = 0;
 
     Pipe();
     Pipe(int id);

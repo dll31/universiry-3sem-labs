@@ -7,12 +7,14 @@
 Pipe::Pipe()
 {
     this->id = 0;
+    this->throughput = (int)sqrt(pow(diameter, 5) / length);
 }
 
 
 Pipe::Pipe(int id)
 {
     this->id = id;
+    this->throughput = (int)sqrt(pow(diameter, 5) / length);
 }
 
 
@@ -22,6 +24,7 @@ void Pipe::display()
         << "id: " << id << "\n"
         << "diameter: " << diameter << "\n"
         << "length: " << length << "\n"
+        << "throughput: " << throughput << "\n"
         << "in Repair: " << (inRepair ? "True" : "False") << "\n";
 }
 
@@ -33,6 +36,7 @@ int Pipe::save(std::ofstream& fout)
         fout << id << "\n"
             << diameter << "\n"
             << length << "\n"
+            << throughput << "\n"
             << (inRepair ? 1 : 0) << "\n";
         return 0;
     }
@@ -65,6 +69,10 @@ int Pipe::inputFile(std::ifstream& fin)
             return -2;
 
         fin >> length;
+        if (fin.fail())
+            return -2;
+
+        fin >> throughput;
         if (fin.fail())
             return -2;
 
