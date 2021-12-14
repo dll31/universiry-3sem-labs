@@ -57,6 +57,9 @@ public:
 
     std::vector<std::vector<int> > createWeightMatrix();
     void displayWeightMatrix();
+
+    int Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<std::vector<int> > weightMatrix);
+
 };
 
 
