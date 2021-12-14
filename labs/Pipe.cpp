@@ -7,14 +7,14 @@
 Pipe::Pipe()
 {
     this->id = 0;
-    this->throughput = (int)sqrt(pow(diameter, 5) / length);
+    this->throughput = (int)round(sqrt(pow(diameter, 5) / length));
 }
 
 
 Pipe::Pipe(int id)
 {
     this->id = id;
-    this->throughput = (int)sqrt(pow(diameter, 5) / length);
+    this->throughput = (int)round(sqrt(pow(diameter, 5) / length));
 }
 
 

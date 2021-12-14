@@ -13,8 +13,8 @@ public:
 
     int diameter;
     double length;
-    bool inRepair = false;
     int throughput = 0;
+    bool inRepair = false;
 
     Pipe();
     Pipe(int id);
