@@ -54,6 +54,8 @@ public:
 
     void connect(int pipeId, CsConnectionData csData);
     int disconnect(int pipeId);
+
+    std::vector<std::vector<int> > createWeightMatrix();
 };
 
 

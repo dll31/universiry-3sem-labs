@@ -4,7 +4,6 @@
 #include <fstream>
 #include <sstream>
 
-
 #include "Network.h"
 #include "utility.h"
 #include "NetworkFilter.h"
@@ -571,6 +570,7 @@ void mainMenuShow()
         << "10. Disconnect" << "\n"
         << "11. Display connections" << "\n"
         << "12. Top sort" << "\n"
+        << "13. display matrix" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -657,6 +657,21 @@ int main()
         case 12:
         {
             menuTopSort(net);
+            break;
+        }
+
+        case 13:
+        {
+            std::vector<std::vector<int> > mat = net.createWeightMatrix();
+            
+            for (auto& i : mat)
+            {
+                for (auto& j : i)
+                {
+                    std::cout << j << " ";
+                }
+                std::cout << '\n';
+            }
             break;
         }
 

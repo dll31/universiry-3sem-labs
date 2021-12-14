@@ -195,3 +195,19 @@ int Network::disconnect(int pipeId)
     return Map.removeLink(pipeId);
 }
 
+
+std::vector<std::vector<int> > Network::createWeightMatrix()
+{
+
+    std::vector<std::vector<int> > matrix(CSArray.size(), std::vector<int>(CSArray.size(), std::numeric_limits<int>::infinity()));
+    
+    for (auto& pipeId : Map.links)
+    {
+        if (Pipeline[pipeId.first].inRepair)
+            continue;
+
+        matrix[pipeId.second.endCS.id][pipeId.second.startCS.id] = Pipeline[pipeId.first].throughput;
+    }
+
+    return matrix;
+}
