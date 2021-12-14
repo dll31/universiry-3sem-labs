@@ -199,7 +199,7 @@ int Network::disconnect(int pipeId)
 std::vector<std::vector<int> > Network::createWeightMatrix()
 {
 
-    std::vector<std::vector<int> > matrix(CSArray.size(), std::vector<int>(CSArray.size(), std::numeric_limits<int>::infinity()));
+    std::vector<std::vector<int> > matrix(CSArray.size(), std::vector<int>(CSArray.size(), std::numeric_limits<int>::max()));
     
     for (auto& pipeId : Map.links)
     {
