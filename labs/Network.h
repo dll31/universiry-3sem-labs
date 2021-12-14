@@ -56,6 +56,7 @@ public:
     int disconnect(int pipeId);
 
     std::vector<std::vector<int> > createWeightMatrix();
+    void displayWeightMatrix();
 };
 
 

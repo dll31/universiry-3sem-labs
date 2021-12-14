@@ -662,16 +662,7 @@ int main()
 
         case 13:
         {
-            std::vector<std::vector<int> > mat = net.createWeightMatrix();
-            
-            for (auto& i : mat)
-            {
-                for (auto& j : i)
-                {
-                    std::cout << j << " ";
-                }
-                std::cout << '\n';
-            }
+            net.displayWeightMatrix();
             break;
         }
 

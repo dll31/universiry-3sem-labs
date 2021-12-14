@@ -211,3 +211,18 @@ std::vector<std::vector<int> > Network::createWeightMatrix()
 
     return matrix;
 }
+
+
+void Network::displayWeightMatrix()
+{
+    std::vector<std::vector<int> > mat = createWeightMatrix();
+
+    for (auto& i : mat)
+    {
+        for (auto& j : i)
+        {
+            std::cout << j << " ";
+        }
+        std::cout << '\n';
+    }
+}
