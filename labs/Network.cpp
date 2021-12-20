@@ -205,8 +205,8 @@ std::vector<std::vector<int> > Network::createWeightMatrix()
         if (Pipeline[pipeId.first].inRepair)
             continue;
 
-        matrix[pipeId.second.endCS.id][pipeId.second.startCS.id] = Pipeline[pipeId.first].throughput;
-        matrix[pipeId.second.startCS.id][pipeId.second.endCS.id] = 0;
+        matrix[pipeId.second.startCS.id][pipeId.second.endCS.id] = Pipeline[pipeId.first].throughput;
+        matrix[pipeId.second.endCS.id][pipeId.second.startCS.id] = 0;
     }
 
     return matrix;
