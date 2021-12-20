@@ -81,10 +81,26 @@ int menuInputAction()
 }
 
 
+void menuFord_Fulkerson(Network& net)
+{
+    int startCs, endCs;
+    int max = 0;
+    for (auto i : net.CSArray)
+        if (i.first > max)
+            max = i.first;
+
+    inputGoodValueFromCin((std::string)"Enter start cs id\n", startCs, 0, max);
+    inputGoodValueFromCin((std::string)"Enter end cs id\n", endCs, 0, max);
+
+    std::cout << "Flow = " << net.Ford_Fulkerson_Algorithm(startCs, endCs, net.createWeightMatrix()) << '\n';
+}
+
+
 void menuTopSort(Network& net)
 {
     net.Map.displayTopSortResult(net.Map.topologicalSort());
 }
+
 
 void menuDisplayConnections(Network& net)
 {
@@ -571,6 +587,7 @@ void mainMenuShow()
         << "11. Display connections" << "\n"
         << "12. Top sort" << "\n"
         << "13. display matrix" << "\n"
+        << "14. Ford-Fulkerson" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -663,6 +680,12 @@ int main()
         case 13:
         {
             net.displayWeightMatrix();
+            break;
+        }
+
+        case 14:
+        {
+            menuFord_Fulkerson(net);
             break;
         }
 
