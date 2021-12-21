@@ -9,6 +9,7 @@
 #include "NetworkFilter.h"
 #include "BatchEditingManager.h"
 
+
 bool breakOperation(int num)
 {
     if (num != -1)
@@ -78,6 +79,23 @@ int menuInputAction()
 
         return action;
     }
+}
+
+
+void menuDijkstra(Network& net)
+{
+    int startCs, endCs;
+    int max = 0;
+    for (auto i : net.CSArray)
+        if (i.first > max)
+            max = i.first;
+
+    inputGoodValueFromCin((std::string)"Enter start cs id\n", startCs, 0, max);
+    inputGoodValueFromCin((std::string)"Enter end cs id\n", endCs, 0, max);
+
+    std::vector<std::vector<double> > matrix = net.createWeightMatrix<double>(matrixWeightField::length);
+
+    net.algorithmDijkstra(matrix, startCs, endCs);
 }
 
 
@@ -588,6 +606,7 @@ void mainMenuShow()
         << "12. Top sort" << "\n"
         << "13. display matrix" << "\n"
         << "14. Ford-Fulkerson" << "\n"
+        << "15. Dijkstra" << "\n"
         << "0. Exit" << "\n"
         << "Choose your action: ";
 }
@@ -686,6 +705,12 @@ int main()
         case 14:
         {
             menuFord_Fulkerson(net);
+            break;
+        }
+
+        case 15:
+        {
+            menuDijkstra(net);
             break;
         }
 
