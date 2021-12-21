@@ -110,7 +110,7 @@ void menuFord_Fulkerson(Network& net)
     inputGoodValueFromCin((std::string)"Enter start cs id\n", startCs, 0, max);
     inputGoodValueFromCin((std::string)"Enter end cs id\n", endCs, 0, max);
 
-    std::cout << "Flow = " << net.Ford_Fulkerson_Algorithm(startCs, endCs, net.createWeightMatrix()) << '\n';
+    std::cout << "Flow = " << net.Ford_Fulkerson_Algorithm(startCs, endCs, net.createWeightMatrix<int>(matrixWeightField::throughput)) << '\n';
 }
 
 
