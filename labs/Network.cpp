@@ -377,3 +377,95 @@ int Network::Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<st
         }
     }
 }
+
+//from https://github.com/BelovitskiyDA/Shortcut
+static void findWay(std::vector<std::vector <double>>& matrix, std::vector<double>& vectWeight, int startPoint, int endPoint)
+{
+    std::stack <int> way;
+    int workPoint = endPoint;
+    int n = matrix.size();
+    int k = 0;
+    way.push(endPoint);
+    double weight = vectWeight[endPoint];
+    while (workPoint != startPoint && k <= n)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (matrix[i][workPoint] != 0 && matrix[i][workPoint] != std::numeric_limits<double>::infinity())
+            {
+
+                if (weight - matrix[i][workPoint] == vectWeight[i])
+                {
+                    weight = weight - matrix[i][workPoint];
+                    workPoint = i;
+                    way.push(workPoint);
+
+                }
+            }
+        }
+        k++;
+    }
+
+    if (k > n)
+        std::cout << "error find way" << '\t';
+    else
+    {
+        while (!way.empty())
+        {
+            std::cout << way.top() << " ";
+            way.pop();
+        }
+        std::cout << '\t';
+    }
+}
+
+
+//from https://github.com/BelovitskiyDA/Shortcut
+void Network::algorithmDijkstra(std::vector<std::vector <double>> matrix, int startPoint, int endPoint) {
+    /*std::cout << "Dijkstra's algorithm start: " << std::endl;*/
+    std::size_t n = matrix.size();
+    std::vector<double> min_weight(n, std::numeric_limits<double>::infinity());
+    min_weight[startPoint] = 0;
+    for (std::size_t i = 0; i < n; ++i) {
+        for (std::size_t j = 0; j < n; ++j) {
+            if (matrix[i][j] < 0) {
+                /*std::cout << "Dijkstra's algorithm works only for graphs without edges of negative weight" << std::endl;*/
+                std::cout << "Dijkstra: error" << '\t';
+                return;
+            }
+            else if (matrix[i][j] == 0) {
+                matrix[i][j] = std::numeric_limits<double>::infinity();
+            }
+        }
+    }
+
+    auto start = std::chrono::system_clock::now();
+
+    std::priority_queue<std::pair <double, int>> q_vertices;
+    q_vertices.push({ 0, startPoint });
+    while (!q_vertices.empty()) {
+        double len = -q_vertices.top().first;
+        int vertex = q_vertices.top().second;
+        q_vertices.pop();
+        if (len > min_weight[vertex]) {
+            continue;
+        }
+        for (std::size_t i = 0; i < n; ++i) {
+            size_t to = i;
+            double length_vert_to = matrix[vertex][to];
+            if (min_weight[to] > min_weight[vertex] + length_vert_to) {
+                min_weight[to] = min_weight[vertex] + length_vert_to;
+                q_vertices.push({ -min_weight[to], to });
+            }
+        }
+    }
+    /*cout << "Answer = " << min_weight[endPoint] << endl;*/
+    std::cout << "Dijkstra: " << min_weight[endPoint] << '\t';
+
+    //auto finish = chrono::system_clock::now();
+    //auto duration = chrono::duration_cast<chrono::nanoseconds>(finish - start).count(); //milliseconds nanoseconds
+    //cout << "time(nanoseconds) : " << duration << '\t';
+    /*cout << duration << ", ";*/
+
+    findWay(matrix, min_weight, startPoint, endPoint);
+}

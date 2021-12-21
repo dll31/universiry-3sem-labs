@@ -3,6 +3,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
+#include <chrono>
+#include <queue>
 
 #include "Pipe.h"
 #include "Compressor_station.h"
@@ -59,6 +61,9 @@ public:
     void displayWeightMatrix();
 
     int Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<std::vector<int> > weightMatrix);
+
+    //from https://github.com/BelovitskiyDA/Shortcut
+    void algorithmDijkstra(std::vector<std::vector <double> > matrix, int startPoint, int endPoint);
 
 };
 
