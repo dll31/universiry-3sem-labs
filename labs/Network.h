@@ -11,6 +11,13 @@
 #include "ConnectionMap.h"
 
 
+enum matrixWeightField
+{
+    throughput,
+    length
+};
+
+
 class Network
 {
 private:
@@ -57,7 +64,8 @@ public:
     void connect(int pipeId, CsConnectionData csData);
     int disconnect(int pipeId);
 
-    std::vector<std::vector<int> > createWeightMatrix();
+    template <typename T>
+    std::vector<std::vector<T> > createWeightMatrix(matrixWeightField param);
     void displayWeightMatrix();
 
     int Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<std::vector<int> > weightMatrix);
@@ -145,5 +153,42 @@ void Network::displayByVectorIds(std::unordered_map<int, T>& umap, std::vector<i
         }
         else
             std::cout << "No element with id " << i << "\n";
+    }
+}
+
+template <typename T>
+std::vector<std::vector<T> > Network::createWeightMatrix(matrixWeightField param)
+{
+    
+    switch (param)
+    {
+    case (throughput):
+    {
+        std::vector<std::vector<T> > matrix(CSArray.size(), std::vector<T>(CSArray.size(), std::numeric_limits<int>::max()));
+        
+        for (auto& pipeId : Map.links)
+        {
+            if (Pipeline[pipeId.first].inRepair)
+                continue;
+
+            matrix[pipeId.second.startCS.id][pipeId.second.endCS.id] = Pipeline[pipeId.first].throughput;
+            matrix[pipeId.second.endCS.id][pipeId.second.startCS.id] = 0;
+        }
+        return matrix;
+    }
+
+    case (length):
+    {
+        std::vector<std::vector<T> > matrix(CSArray.size(), std::vector<T>(CSArray.size(), std::numeric_limits<double>::infinity()));
+        
+        for (auto& pipeId : Map.links)
+        {
+            if (Pipeline[pipeId.first].inRepair)
+                continue;
+
+            matrix[pipeId.second.startCS.id][pipeId.second.endCS.id] = Pipeline[pipeId.first].length;
+        }
+        return matrix;
+    }
     }
 }

@@ -5,7 +5,6 @@
 #include "utility.h"
 
 
-
 void Network::loadElementsFromFile(std::string file)
 {   
     int rc = 0;
@@ -196,26 +195,9 @@ int Network::disconnect(int pipeId)
 }
 
 
-std::vector<std::vector<int> > Network::createWeightMatrix()
-{
-    std::vector<std::vector<int> > matrix(CSArray.size(), std::vector<int>(CSArray.size(), std::numeric_limits<int>::max()));
-    
-    for (auto& pipeId : Map.links)
-    {
-        if (Pipeline[pipeId.first].inRepair)
-            continue;
-
-        matrix[pipeId.second.startCS.id][pipeId.second.endCS.id] = Pipeline[pipeId.first].throughput;
-        matrix[pipeId.second.endCS.id][pipeId.second.startCS.id] = 0;
-    }
-
-    return matrix;
-}
-
-
 void Network::displayWeightMatrix()
 {
-    std::vector<std::vector<int> > mat = createWeightMatrix();
+    /*std::vector<std::vector<int> > mat = createWeightMatrix();
 
     for (auto& i : mat)
     {
@@ -224,7 +206,7 @@ void Network::displayWeightMatrix()
             std::cout << j << " ";
         }
         std::cout << '\n';
-    }
+    }*/
 }
 
 
@@ -255,6 +237,7 @@ static std::vector<int> getNeighborVertexes(int pointId, std::vector<std::vector
 
     return neighborVertexes;
 }
+
 
 enum Ford_Fulkerson_steps 
 {
