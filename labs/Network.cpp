@@ -312,7 +312,7 @@ int Network::Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<st
             if (elemPos != marks.end())
                 marks.erase(elemPos);
 
-            nowPoint = visited[visited.size() - 2];
+            nowPoint = marks[marks.size() - 1];
 
             step = getNeighbor;
             break;
