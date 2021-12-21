@@ -226,12 +226,12 @@ static std::vector<int> getNeighborVertexes(int pointId, std::vector<std::vector
 
 enum Ford_Fulkerson_steps 
 {
-    init, //step 1
-    getNeighbor, //step 2
-    findNextPoint, // step 3
-    backToTheFuture, //step 4
-    recalcMatrix, //step 5
-    end //step 6
+    INIT, //step 1 
+    GET_NEIGHBOR, //step 2
+    FIND_NEXT_POINT, // step 3
+    BACK_TO_THE_FUTURE, //step 4
+    RECALC_MATRIX, //step 5
+    END //step 6
 };
 
 
@@ -242,13 +242,13 @@ int Network::Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<st
     int nowPoint, nextPoint;
     int maxFlow = 0;
 
-    Ford_Fulkerson_steps step = init;
+    Ford_Fulkerson_steps step = INIT;
 
     while (true)
     {
         switch (step)
         {
-        case(init):
+        case(INIT):
         {
             marks.clear();
             visited.clear();
@@ -257,23 +257,23 @@ int Network::Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<st
             marks.push_back(startCsId);
             visited.push_back(startCsId);
             
-            step = getNeighbor;
+            step = GET_NEIGHBOR;
             break;
         }
 
-        case(getNeighbor):
+        case(GET_NEIGHBOR):
         {
             neighborVertexes = getNeighborVertexes(nowPoint, weightMatrix, visited);
 
             if (!neighborVertexes.empty())
-                step = findNextPoint;
+                step = FIND_NEXT_POINT;
             else
-                step = backToTheFuture;
+                step = BACK_TO_THE_FUTURE;
 
             break;
         }
 
-        case(findNextPoint):
+        case(FIND_NEXT_POINT):
         {
             int max = 0;
             int maxPointId = -1;
@@ -293,18 +293,18 @@ int Network::Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<st
             nowPoint = nextPoint;
 
             if (nextPoint == endCsId)
-                step = recalcMatrix;
+                step = RECALC_MATRIX;
             else 
-                step = getNeighbor;
+                step = GET_NEIGHBOR;
 
             break;
         }
 
-        case(backToTheFuture):
+        case(BACK_TO_THE_FUTURE):
         {
             if (nowPoint == startCsId)
             {
-                step = end;
+                step = END;
                 break;
             }
 
@@ -314,11 +314,11 @@ int Network::Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<st
 
             nowPoint = marks[marks.size() - 1];
 
-            step = getNeighbor;
+            step = GET_NEIGHBOR;
             break;
         }
 
-        case(recalcMatrix):
+        case(RECALC_MATRIX):
         {
             int min = std::numeric_limits<int>::max();
             for (int i = 0; i < marks.size() - 1; i++)
@@ -333,11 +333,11 @@ int Network::Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<st
 
             maxFlow += min;
             
-            step = init;
+            step = INIT;
             break;
         }
 
-        case(end):
+        case(END):
         {
             return maxFlow;
         }
