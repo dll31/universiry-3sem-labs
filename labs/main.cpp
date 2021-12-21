@@ -114,6 +114,43 @@ void menuFord_Fulkerson(Network& net)
 }
 
 
+void menuDisplayMatrixShow()
+{
+    std::cout << "Input 1 for display len matrix " << '\n'
+        << "Input 2 for display throughput matrix " << '\n'
+        << "0 to exit\n";
+}
+
+
+void menuDisplayMatrixAction(Network& net)
+{
+    int value = 0;
+    menuDisplayMatrixShow();
+    inputGoodValueFromCin((std::string)"Choose your action:\n", value, 0, 2);
+
+    switch (value)
+    {
+    case (0):
+    {
+        break;
+    }
+
+    case (1):
+    {
+        net.displayWeightMatrix(net.createWeightMatrix<double>(length));
+        break;
+    }
+
+    case (2):
+    {
+        net.displayWeightMatrix(net.createWeightMatrix<int>(throughput));
+        break;
+    }
+    }
+
+}
+
+
 void menuTopSort(Network& net)
 {
     net.Map.displayTopSortResult(net.Map.topologicalSort());
@@ -698,7 +735,7 @@ int main()
 
         case 13:
         {
-            net.displayWeightMatrix();
+            menuDisplayMatrixAction(net);
             break;
         }
 
