@@ -66,7 +66,9 @@ public:
 
     template <typename T>
     std::vector<std::vector<T> > createWeightMatrix(matrixWeightField param);
-    void displayWeightMatrix();
+    
+    template <typename T>
+    void displayWeightMatrix(std::vector<std::vector<T> > mat);
 
     int Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<std::vector<int> > weightMatrix);
 
@@ -190,5 +192,18 @@ std::vector<std::vector<T> > Network::createWeightMatrix(matrixWeightField param
         }
         return matrix;
     }
+    }
+}
+
+template <typename T>
+void Network::displayWeightMatrix(std::vector<std::vector<T> > mat)
+{
+    for (auto& i : mat)
+    {
+        for (auto& j : i)
+        {
+            std::cout << j << " ";
+        }
+        std::cout << '\n';
     }
 }

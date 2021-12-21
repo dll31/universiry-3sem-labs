@@ -195,21 +195,6 @@ int Network::disconnect(int pipeId)
 }
 
 
-void Network::displayWeightMatrix()
-{
-    /*std::vector<std::vector<int> > mat = createWeightMatrix();
-
-    for (auto& i : mat)
-    {
-        for (auto& j : i)
-        {
-            std::cout << j << " ";
-        }
-        std::cout << '\n';
-    }*/
-}
-
-
 static std::vector<int> getNeighborVertexes(int pointId, std::vector<std::vector<int> >& matrix, std::deque<int>& visited)
 {
     std::vector<int> neighborVertexes;
