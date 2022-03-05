@@ -3,10 +3,19 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
+#include <chrono>
+#include <queue>
 
 #include "Pipe.h"
 #include "Compressor_station.h"
 #include "ConnectionMap.h"
+
+
+enum matrixWeightField
+{
+    throughput,
+    length
+};
 
 
 class Network
@@ -54,6 +63,18 @@ public:
 
     void connect(int pipeId, CsConnectionData csData);
     int disconnect(int pipeId);
+
+    template <typename T>
+    std::vector<std::vector<T> > createWeightMatrix(matrixWeightField param);
+    
+    template <typename T>
+    void displayWeightMatrix(std::vector<std::vector<T> > mat);
+
+    int Ford_Fulkerson_Algorithm(int startCsId, int endCsId, std::vector<std::vector<int> > weightMatrix);
+
+    //from https://github.com/BelovitskiyDA/Shortcut
+    void algorithmDijkstra(std::vector<std::vector <double> > matrix, int startPoint, int endPoint);
+
 };
 
 
@@ -134,5 +155,55 @@ void Network::displayByVectorIds(std::unordered_map<int, T>& umap, std::vector<i
         }
         else
             std::cout << "No element with id " << i << "\n";
+    }
+}
+
+template <typename T>
+std::vector<std::vector<T> > Network::createWeightMatrix(matrixWeightField param)
+{
+    
+    switch (param)
+    {
+    case (throughput):
+    {
+        std::vector<std::vector<T> > matrix(CSArray.size(), std::vector<T>(CSArray.size(), std::numeric_limits<int>::max()));
+        
+        for (auto& pipeId : Map.links)
+        {
+            if (Pipeline[pipeId.first].inRepair)
+                continue;
+
+            matrix[pipeId.second.startCS.id][pipeId.second.endCS.id] = Pipeline[pipeId.first].throughput;
+            matrix[pipeId.second.endCS.id][pipeId.second.startCS.id] = 0;
+        }
+        return matrix;
+    }
+
+    case (length):
+    {
+        std::vector<std::vector<T> > matrix(CSArray.size(), std::vector<T>(CSArray.size(), std::numeric_limits<double>::infinity()));
+        
+        for (auto& pipeId : Map.links)
+        {
+            if (Pipeline[pipeId.first].inRepair)
+                continue;
+
+            matrix[pipeId.second.startCS.id][pipeId.second.endCS.id] = Pipeline[pipeId.first].length;
+        }
+        return matrix;
+    }
+    }
+}
+
+template <typename T>
+void Network::displayWeightMatrix(std::vector<std::vector<T> > mat)
+{
+    for (auto& i : mat)
+    {
+        for (auto& j : i)
+        {
+            std::cout << j << " ";
+        }
+        std::cout << '\n';
     }
 }
