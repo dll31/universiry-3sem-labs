@@ -38,6 +38,6 @@ void initFilter()
 
 void getAvailableCompareOperators(std::vector<std::string>& ops)
 {
-    for (auto i : compareOperators)
+    for (auto& i : compareOperators)
         ops.push_back(i.first);
 }

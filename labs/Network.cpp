@@ -38,6 +38,15 @@ void Network::loadElementsFromFile(std::string file)
                     CSArray.insert({ cs.getId(), cs });
                 }
             }
+            else if (sep == linkSepInFile)
+            {
+                int pipeId;
+                CsConnectionData data;
+                fin >> pipeId
+                    >> data.startCS.id
+                    >> data.endCS.id;
+                Map.addLink(pipeId, data);
+            }
 
             if (rc < 0)
             {
@@ -62,8 +71,7 @@ void Network::saveInFile(std::string file)
     std::ofstream fout(file);
     if (fout.is_open())
     {
-
-        for (auto i : Pipeline)
+        for (auto& i : Pipeline)
         {
             fout << pipeSepInFile << '\n';
             rc = i.second.save(fout);
@@ -73,13 +81,21 @@ void Network::saveInFile(std::string file)
         }
 
         rc = 0;
-        for (auto i : CSArray)
+        for (auto& i : CSArray)
         {
             fout << compStationSepInFile << '\n';
             rc = i.second.save(fout);
 
             if (rc < 0)
                 break;
+        }
+
+        for (auto& i : Map.links)
+        {
+            fout << linkSepInFile << '\n'
+                << i.first << '\n'
+                << i.second.startCS.id << '\n'
+                << i.second.endCS.id << '\n';
         }
 
         fout.close();
@@ -117,14 +133,14 @@ void Network::csInputConsole()
 void Network::display()
 {
     std::cout << "Comprssor stations:" << '\n';
-    for (auto i : CSArray)
+    for (auto& i : CSArray)
     {
         i.second.display();
         std::cout << '\n';
     }
 
     std::cout << '\n' << "Pipes:" << '\n';
-    for (auto i : Pipeline)
+    for (auto& i : Pipeline)
     {
         i.second.display();
         std::cout << '\n';
@@ -137,4 +153,45 @@ void Network::clearAllElements()
 {
     Pipeline.clear();
     CSArray.clear();
+    Map.clear();
 }
+
+
+int Network::pipeIsExist(int pipeId)
+{
+    if (!Pipeline.count(pipeId))
+        return pipeIsUnexist;
+
+    return exist;
+}
+
+
+int Network::csIsExist(int csId)
+{
+    if (!CSArray.count(csId))
+        return csIsUnexist;
+
+    return exist;
+}
+
+
+int Network::csHaveFreeWorkshop(int csId)
+{
+    if (CSArray[csId].getCountWorkedWorkshops() == Map.getCsBusyWorkshops(csId))
+        return csWorkshopIsUnavailable;
+
+    return have;
+}
+
+
+void Network::connect(int pipeId, CsConnectionData csData)
+{
+    Map.addLink(pipeId, csData);
+}
+
+
+int Network::disconnect(int pipeId)
+{
+    return Map.removeLink(pipeId);
+}
+

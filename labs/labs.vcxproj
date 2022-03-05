@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="BatchEditingManager.cpp" />
     <ClCompile Include="Compressor_station.cpp" />
+    <ClCompile Include="ConnectionMap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="NetworkFilter.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="BatchEditingManager.h" />
     <ClInclude Include="Compressor_station.h" />
+    <ClInclude Include="ConnectionMap.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="NetworkFilter.h" />
     <ClInclude Include="Pipe.h" />
